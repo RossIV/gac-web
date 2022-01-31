@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
-use App\Http\Requests\StoreSignatureRequest;
-use App\Http\Requests\UpdateSignatureRequest;
-use App\Models\Signature;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreEventRequest;
+use App\Http\Requests\UpdateEventRequest;
+use App\Models\Event;
 
-class SignatureController extends Controller
+class EventController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,10 +22,10 @@ class SignatureController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreSignatureRequest  $request
+     * @param  \App\Http\Requests\StoreEventRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreSignatureRequest $request)
+    public function store(StoreEventRequest $request)
     {
         //
     }
@@ -32,10 +33,10 @@ class SignatureController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Signature  $signature
+     * @param  \App\Models\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function show(Signature $signature)
+    public function show(Event $event)
     {
         //
     }
@@ -43,11 +44,11 @@ class SignatureController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateSignatureRequest  $request
-     * @param  \App\Models\Signature  $signature
+     * @param  \App\Http\Requests\UpdateEventRequest  $request
+     * @param  \App\Models\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateSignatureRequest $request, Signature $signature)
+    public function update(UpdateEventRequest $request, Event $event)
     {
         //
     }
@@ -55,10 +56,10 @@ class SignatureController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Signature  $signature
+     * @param  \App\Models\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Signature $signature)
+    public function destroy(Event $event)
     {
         //
     }
