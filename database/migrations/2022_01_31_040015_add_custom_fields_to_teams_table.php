@@ -15,10 +15,10 @@ class AddCustomFieldsToTeamsTable extends Migration
     public function up()
     {
         Schema::table(Config::get('teamwork.teams_table'), function (Blueprint $table) {
-            $table->addColumn('string', 'motto')->nullable();
-            $table->addColumn('boolean', 'accept_additional_members')->nullable();
-            $table->addColumn('timestamp', 'terms_agreed_at')->nullable();
-            $table->addColumn('unsignedBigInteger', 'terms_agreed_by')->nullable();
+            $table->string('motto')->nullable();
+            $table->boolean('accept_additional_members')->nullable();
+            $table->timestamp('terms_agreed_at')->nullable();
+            $table->unsignedBigInteger('terms_agreed_by')->nullable();
 
             $table->foreign('terms_agreed_by')->references('id')->on('users');
         });
