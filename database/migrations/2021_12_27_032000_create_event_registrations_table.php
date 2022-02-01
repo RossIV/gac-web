@@ -17,7 +17,7 @@ class CreateEventRegistrationsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('event_id');
-            $table->unsignedBigInteger('team_id')->nullable();
+            $table->unsignedInteger('team_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
