@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreSignatureRequest;
-use App\Http\Requests\UpdateSignatureRequest;
+use App\Http\Requests\API\StoreSignatureRequest;
+use App\Http\Requests\API\UpdateSignatureRequest;
 use App\Models\Signature;
 
 class SignatureController extends Controller
@@ -22,7 +22,7 @@ class SignatureController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreSignatureRequest  $request
+     * @param  \App\Http\Requests\API\StoreSignatureRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreSignatureRequest $request)
@@ -44,7 +44,7 @@ class SignatureController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateSignatureRequest  $request
+     * @param  \App\Http\Requests\API\UpdateSignatureRequest  $request
      * @param  \App\Models\Signature  $signature
      * @return \Illuminate\Http\Response
      */
