@@ -24,7 +24,6 @@ class CreateUsersTable extends Migration
             $table->string('emergency_contact_name')->nullable();
             $table->string('emergency_contact_phone')->nullable();
             $table->string('emergency_contact_relationship')->nullable();
-            $table->unsignedInteger('affiliation_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
