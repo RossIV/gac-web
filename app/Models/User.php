@@ -43,12 +43,22 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * Define relationship between User and LoginToken models
+     *
+     * @return HasMany
+     */
     public function loginTokens(): HasMany
     {
         return $this->hasMany(LoginToken::class);
     }
 
-    public function sendLoginLink()
+    /**
+     * Sends the user a magic login link by email to authenticate into the application
+     *
+     * @return void
+     */
+    public function sendLoginLink(): void
     {
         $plaintext = Str::random(32);
         $token = $this->loginTokens()->create([

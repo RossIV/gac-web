@@ -4,17 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\LoginToken;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class AuthController extends Controller
 {
-    public function showLogin()
+    /**
+     * @return View
+     */
+    public function showLogin(): View
     {
         return view('auth.login');
     }
 
-    public function login(Request $request)
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function login(Request $request): RedirectResponse
     {
         $data = $request->validate([
             'email' => ['required', 'email', 'exists:users,email'],
@@ -24,7 +33,12 @@ class AuthController extends Controller
         return redirect()->back();
     }
 
-    public function verifyLogin(Request $request, $token)
+    /**
+     * @param Request $request
+     * @param $token
+     * @return RedirectResponse
+     */
+    public function verifyLogin(Request $request, $token): RedirectResponse
     {
         $token = LoginToken::whereToken(hash('sha256', $token))->firstOrFail();
         abort_unless($request->hasValidSignature() && $token->isValid(), 401);
@@ -33,7 +47,10 @@ class AuthController extends Controller
         return redirect('/');
     }
 
-    public function logout()
+    /**
+     * @return RedirectResponse
+     */
+    public function logout(): RedirectResponse
     {
         Auth::logout();
         return redirect(route('login'));
