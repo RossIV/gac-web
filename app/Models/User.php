@@ -5,7 +5,9 @@ namespace App\Models;
 use App\Mail\MagicLoginLink;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Mail;
@@ -19,13 +21,12 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable, UserHasTeams;
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes that are not mass assignable.
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email'
+    protected $guarded = [
+        'id'
     ];
 
     /**
@@ -43,6 +44,24 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * @return string
+     */
+    public function getNameAttribute()
+    {
+        return "$this->first_name $this->last_name";
+    }
+
+    /**
+     * Define relationship between User and Affiliation models
+     *
+     * @return BelongsTo
+     */
+    public function affiliation(): BelongsTo
+    {
+        return $this->belongsTo(Affiliation::class);
+    }
 
     /**
      * Define relationship between User and LoginToken models
