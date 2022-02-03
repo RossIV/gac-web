@@ -15,6 +15,7 @@ use Mpociot\Teamwork\Traits\UserHasTeams;
 
 class User extends Authenticatable
 {
+    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasApiTokens, HasFactory, Notifiable, UserHasTeams;
 
     /**
