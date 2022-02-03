@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\API;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdatePaymentMethodsRequest extends FormRequest
+class StoreSignatureRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

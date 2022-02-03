@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreEventRegistrationRequest;
-use App\Http\Requests\UpdateEventRegistrationRequest;
+use App\Http\Requests\API\StoreEventRegistrationRequest;
+use App\Http\Requests\API\UpdateEventRegistrationRequest;
 use App\Models\EventRegistration;
 
 class EventRegistrationController extends Controller
@@ -22,7 +22,7 @@ class EventRegistrationController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreEventRegistrationRequest  $request
+     * @param  \App\Http\Requests\API\StoreEventRegistrationRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreEventRegistrationRequest $request)
@@ -44,7 +44,7 @@ class EventRegistrationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateEventRegistrationRequest  $request
+     * @param  \App\Http\Requests\API\UpdateEventRegistrationRequest  $request
      * @param  \App\Models\EventRegistration  $eventRegistration
      * @return \Illuminate\Http\Response
      */
