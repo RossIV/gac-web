@@ -9,4 +9,14 @@ class EventRegistration extends Model
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
+
+    /**
+     * Returns string representation of the model
+     *
+     * @return string
+     */
+    public function getNameAttribute()
+    {
+        return "Registration #$this->id";
+    }
 }

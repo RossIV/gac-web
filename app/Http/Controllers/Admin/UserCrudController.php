@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\UserRequest;
+use App\Models\Team;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -107,6 +108,13 @@ class UserCrudController extends CrudController
         CRUD::column('email_verified_at');
         CRUD::column('phone');
         CRUD::column('affiliation_id');
+        $this->crud->addColumn([
+            'type' => 'relationship',
+            'name' => 'teams',
+            'label' => 'Teams',
+            'attribute' => 'name',
+            'model' => Team::class
+        ]);
         CRUD::column('emergency_contact_name');
         CRUD::column('emergency_contact_phone');
         CRUD::column('emergency_contact_relationship');

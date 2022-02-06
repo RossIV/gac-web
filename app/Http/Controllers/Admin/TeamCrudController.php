@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\TeamRequest;
+use App\Models\EventRegistration;
 use App\Models\User;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -124,6 +125,13 @@ class TeamCrudController extends CrudController
             'label' => 'Invited Members',
             'attribute' => 'name',
             'model' => User::class
+        ]);
+        $this->crud->addColumn([
+            'type' => 'relationship',
+            'name' => 'registrations',
+            'label' => 'Registrations',
+            'attribute' => 'name',
+            'model' => EventRegistration::class
         ]);
     }
 }
