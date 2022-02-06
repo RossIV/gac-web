@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Mail\MagicLoginLink;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -18,7 +18,7 @@ use Mpociot\Teamwork\Traits\UserHasTeams;
 class User extends Authenticatable
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
-    use HasApiTokens, HasFactory, Notifiable, UserHasTeams;
+    use HasApiTokens, HasFactory, Notifiable, UserHasTeams, MustVerifyEmail;
 
     /**
      * The attributes that are not mass assignable.
