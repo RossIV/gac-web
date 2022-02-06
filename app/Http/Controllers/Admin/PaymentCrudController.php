@@ -41,8 +41,8 @@ class PaymentCrudController extends CrudController
     {
         CRUD::column('amount');
         CRUD::column('notes');
-        CRUD::column('payer_id');
-        CRUD::column('payer_type');
+        CRUD::column('payable_id');
+        CRUD::column('payable_type');
         CRUD::column('payment_method_id');
 
         /**
@@ -64,8 +64,8 @@ class PaymentCrudController extends CrudController
 
         CRUD::field('amount');
         CRUD::field('notes');
-        CRUD::field('payer_id');
-        CRUD::field('payer_type');
+        CRUD::field('payable_id');
+        CRUD::field('payable_type');
         CRUD::field('payment_method_id');
 
         /**
