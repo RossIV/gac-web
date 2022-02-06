@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Route;
 // --------------------------
 // This route file is loaded automatically by Backpack\Base.
 // Routes you generate using Backpack\Generators will be placed here.
+Route::group(['middleware' => 'web', 'prefix' => config('backpack.base.route_prefix')], function () {
+    Route::get('login', '\App\Http\Controllers\AuthController@showLogin');
+    Route::get('logout', '\App\Http\Controllers\AuthController@logout');
+});
 
 Route::group([
     'prefix'     => config('backpack.base.route_prefix', 'admin'),
