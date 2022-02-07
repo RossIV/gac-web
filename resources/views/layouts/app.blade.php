@@ -9,7 +9,9 @@
 </head>
 <body>
 <div class="container-fluid">
-    @include('layouts/head')
+    @if(!isset($no_head))
+        @include('layouts/head')
+    @endif
     @yield('content')
 </div>
 </body>
