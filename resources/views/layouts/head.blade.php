@@ -4,18 +4,18 @@
     </a>
 
     <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
-        <li><a href="#" class="nav-link px-2 link-dark">My Team</a></li>
-        <li><a href="#" class="nav-link px-2 link-dark">Team Registration</a></li>
-        <li><a href="#" class="nav-link px-2 link-dark">Admin</a></li>
+        <li><a href="/" class="nav-link px-2 link-secondary">Home</a></li>
+        <li><a href="/my-team" class="nav-link px-2 link-dark">My Team</a></li>
+        <li><a href="/team-registration" class="nav-link px-2 link-dark">Team Registration</a></li>
+        <li><a href="/admin" class="nav-link px-2 link-dark">Admin</a></li>
     </ul>
 
     <div class="col-md-3 text-end">
         @if(Auth::check())
         <span class="me-2">Welcome, {{ Auth::user()->name }}!</span>
-        <button type="button" class="btn btn-outline-primary me-2">Logout</button>
+        <a role="button" class="btn btn-outline-primary me-2" href="/logout">Logout</a>
         @else
-        <button type="button" class="btn btn-primary">Log in</button>
+        <a role="button" class="btn btn-primary" href="/login">Log in</a>
         @endif
     </div>
 </header>
