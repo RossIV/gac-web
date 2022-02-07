@@ -52,37 +52,70 @@
                             Each member you specify here will receive an email with individual instructions after submitting your registration.
                             Please ensure all contact information is accurate. <b>Make sure to include yourself!</b>
                         </p>
-                        <button type="button" class="btn btn-success">Add Team Member</button>
-                        <div class="row pt-3">
-                            <div class="col-sm-12 col-md-6 col-lg-4">
-                                <label for="member_first_name" class="form-label">First Name</label>
-                                <input type="text" class="form-control" id="member_first_name" required>
+                        <table class="table table-hover table-striped" v-if="registration.team_members.length > 0">
+                            <caption>Your Team</caption>
+                            <thead class="table-light">
+                                <th>Name</th><th>Email</th><th>Phone</th><th>Affiliation</th><th>Actions</th>
+                            </thead>
+                            <tbody>
+                            <template v-for="member in registration.team_members">
+                                <td>{{ member.first_name }} {{ member.last_name }} ({{ member.alt_name }})</td>
+                                <td>{{ member.email }}</td>
+                                <td>{{ member.phone }}</td>
+                                <td>{{ member.affiliation }}</td>
+                                <td>
+                                    <button type="button" class="btn">Edit</button>
+                                    <button type="button" class="btn btn-danger">Delete</button>
+                                </td>
+                            </template>
+                            </tbody>
+                        </table>
+                        <button type="button" class="btn btn-success" v-if="!adding_team_member" v-on:click="add_new_team_member">
+                            Add Team Member
+                        </button>
+
+                        <template v-if="adding_team_member">
+                            <hr>
+                            <h4>New Team Member Details:</h4>
+                            <div class="row pt-3">
+                                <div class="col-sm-12 col-md-6 col-lg-4">
+                                    <label for="member_first_name" class="form-label">First Name</label>
+                                    <input type="text" class="form-control" id="member_first_name" required v-model="new_team_member.first_name">
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-4">
+                                    <label for="member_last_name" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" id="member_last_name" required v-model="new_team_member.last_name">
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-4">
+                                    <label for="member_alt_name" class="form-label">Knight Name</label>
+                                    <input type="text" class="form-control" id="member_alt_name" v-model="new_team_member.alt_name">
+                                </div>
                             </div>
-                            <div class="col-sm-12 col-md-6 col-lg-4">
-                                <label for="member_last_name" class="form-label">Last Name</label>
-                                <input type="text" class="form-control" id="member_last_name" required>
+                            <div class="row pt-3">
+                                <div class="col-sm-12 col-md-6 col-lg-4">
+                                    <label for="member_email" class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" id="member_email" required v-model="new_team_member.email">
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-4">
+                                    <label for="member_phone" class="form-label">Phone Number</label>
+                                    <input type="text" class="form-control" id="member_phone" required v-model="new_team_member.phone">
+                                </div>
                             </div>
-                            <div class="col-sm-12 col-md-6 col-lg-4">
-                                <label for="member_alt_name" class="form-label">Knight Name</label>
-                                <input type="text" class="form-control" id="member_alt_name">
+                            <div class="row pt-3">
+                                <div class="col-sm-12 col-md-6 col-lg-4">
+                                    <label for="member_affiliation" class="form-label">Affiliation</label>
+                                    <input type="text" class="form-control" id="member_affiliation" required v-model="new_team_member.affiliation">
+                                </div>
                             </div>
-                        </div>
-                        <div class="row pt-3">
-                            <div class="col-sm-12 col-md-6 col-lg-4">
-                                <label for="member_email" class="form-label">Email Address</label>
-                                <input type="email" class="form-control" id="member_email" required>
+                            <div class="row pt-3">
+                                <div class="col-sm-12 col-md-6 col-lg-4">
+                                    <button type="button" class="btn btn-primary" v-on:click="process_new_team_member">Add Member</button>
+                                    <button type="button" class="btn btn-danger" v-on:click="cancel_add_new_team_member">Cancel</button>
+                                </div>
                             </div>
-                            <div class="col-sm-12 col-md-6 col-lg-4">
-                                <label for="member_phone" class="form-label">Phone Number</label>
-                                <input type="text" class="form-control" id="member_phone" required>
-                            </div>
-                        </div>
-                        <div class="row pt-3">
-                            <div class="col-sm-12 col-md-6 col-lg-4">
-                                <label for="member_affiliation" class="form-label">Affiliation</label>
-                                <input type="text" class="form-control" id="member_affiliation" required>
-                            </div>
-                        </div>
+                            <hr>
+                        </template>
+
                         <div class="row pt-3">
                             <div class="mb-3 col-sm-12 col-md-6">
                                 <label for="additional_members" class="form-label mb-0">Additional Members</label>
@@ -160,7 +193,28 @@ export default {
                 payment_method: "",
                 accept_terms: ""
             },
-            adding_team_member: false
+            adding_team_member: false,
+            editing_team_member: false,
+            new_team_member: {
+                first_name: "",
+                last_name: "",
+                alt_name: "",
+                email: "",
+                phone: "",
+                affiliation: ""
+            }
+        }
+    },
+    methods: {
+        add_new_team_member: function() {
+            this.adding_team_member = true;
+        },
+        cancel_add_new_team_member: function() {
+            this.adding_team_member = false;
+        },
+        process_new_team_member: function() {
+            this.registration.team_members.push(this.new_team_member)
+            this.adding_team_member = false;
         }
     }
 }
