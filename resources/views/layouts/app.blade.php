@@ -8,11 +8,14 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-<div class="container-fluid">
-    @if(!isset($no_head))
-        @include('layouts/head')
-    @endif
-    @yield('content')
+<div id="app">
+    <div class="container-fluid">
+        @if(!isset($no_head))
+            @include('layouts/head')
+        @endif
+        @yield('content')
+    </div>
 </div>
+<script src="{{ mix('/js/app.js') }}"></script>
 </body>
 </html>
