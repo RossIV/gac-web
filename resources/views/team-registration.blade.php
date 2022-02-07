@@ -7,6 +7,19 @@
                 <b>Hold your horses!</b> You're already part of a team - there's no need to register again.
                 If you need help, please contact <a href="mailto:gamecontrol@getaclue.tech">Game Control</a>.
             </div>
+            <div>
+                Fill out the form below to get your team registered for Get a Clue!
+                After submitting the form, each team member will receive an email with some action items:
+                <ol>
+                    <li>Confirm their email address</li>
+                    <li>Electronically sign a participant liability waiver</li>
+                    <li>Attest that they have been vaccinated against COVID-19</li>
+                </ol>
+                The member submitting this form will also receive an email with some additional action items:
+                <ol>
+                    <li>Pay the registration fee for the team</li>
+                </ol>
+            </div>
         </div>
     </div>
     <div class="row pt-3">
@@ -26,19 +39,6 @@
                             <input type="text" class="form-control" id="team_motto">
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="mb-3 col-sm-12 col-md-6">
-                            <label for="additional_members" class="form-label mb-0">Additional Members</label>
-                            <div class="form-text">
-                                Are you willing and able to have others who may not have a team join your team on game day?
-                            </div>
-                            <select class="form-select" name="additional_members" id="additional_members" required>
-                                <option disabled selected>Select One</option>
-                                <option value="1">Yes</option>
-                                <option value="0">No</option>
-                            </select>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -50,7 +50,7 @@
                 <div class="card-body">
                     <p class="card-text">
                         Each member you specify here will receive an email with individual instructions after submitting your registration.
-                        Please ensure all contact information is accurate!
+                        Please ensure all contact information is accurate. <b>Make sure to include yourself!</b>
                     </p>
                     <button type="button" class="btn btn-success">Add Team Member</button>
                     <div class="row pt-3">
@@ -81,6 +81,19 @@
                         <div class="col-sm-12 col-md-6 col-lg-4">
                             <label for="member_affiliation" class="form-label">Affiliation</label>
                             <input type="text" class="form-control" id="member_affiliation" required>
+                        </div>
+                    </div>
+                    <div class="row pt-3">
+                        <div class="mb-3 col-sm-12 col-md-6">
+                            <label for="additional_members" class="form-label mb-0">Additional Members</label>
+                            <div class="form-text">
+                                Are you willing and able to have others who may not have a team join your team on game day?
+                            </div>
+                            <select class="form-select" name="additional_members" id="additional_members" required>
+                                <option disabled selected>Select One</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
                         </div>
                     </div>
                 </div>
