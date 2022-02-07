@@ -13,12 +13,15 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Mpociot\Teamwork\Traits\UserHasTeams;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\CausesActivity;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
-    use HasApiTokens, HasFactory, Notifiable, UserHasTeams, MustVerifyEmail, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, UserHasTeams, MustVerifyEmail, HasRoles, CausesActivity, LogsActivity;
 
     /**
      * The attributes that are not mass assignable.
@@ -88,5 +91,18 @@ class User extends Authenticatable
             'expires_at' => now()->addMinutes(15),
         ]);
         Mail::to($this->email)->queue(new MagicLoginLink($plaintext, $token->expires_at));
+    }
+
+    /**
+     * Sets options for ActivityLog
+     *
+     * @return LogOptions
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['*'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
     }
 }
