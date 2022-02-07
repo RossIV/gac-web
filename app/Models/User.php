@@ -13,11 +13,12 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Mpociot\Teamwork\Traits\UserHasTeams;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
-    use HasApiTokens, HasFactory, Notifiable, UserHasTeams, MustVerifyEmail;
+    use HasApiTokens, HasFactory, Notifiable, UserHasTeams, MustVerifyEmail, HasRoles;
 
     /**
      * The attributes that are not mass assignable.
