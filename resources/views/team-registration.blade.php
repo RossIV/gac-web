@@ -1,76 +1,134 @@
 @extends('layouts.app', ['title' => 'Team Registration'])
 @section('content')
-    <div>
-        <form action="#" method="POST">
-            <div class="md:grid md:grid-cols-3 md:gap-6">
-                <div class="md:col-span-1">
-                    <div class="px-4 sm:px-0">
-                        <h3 class="text-lg font-medium leading-6 text-gray-900">Team</h3>
-                        <p class="mt-1 text-sm text-gray-600">What dost thou call thine selves?</p>
+    <div class="row">
+        <div class="col-12">
+            <h2>Team Registration</h2>
+            <div class="alert alert-warning" role="alert">
+                <b>Hold your horses!</b> You're already part of a team - there's no need to register again.
+                If you need help, please contact <a href="mailto:gamecontrol@getaclue.tech">Game Control</a>.
+            </div>
+        </div>
+    </div>
+    <div class="row pt-3">
+        <div class="col-12">
+            <div class="card">
+                <h5 class="card-header">Team</h5>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="mb-3 col-sm-12 col-md-6">
+                            <label for="team_name" class="form-label">Team Name</label>
+                            <input type="text" class="form-control" id="team_name">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-3 col-sm-12 col-md-6">
+                            <label for="team_motto" class="form-label">Team Motto</label>
+                            <input type="text" class="form-control" id="team_motto">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-3 col-sm-12 col-md-6">
+                            <label for="additional_members" class="form-label mb-0">Additional Members</label>
+                            <div class="form-text">
+                                Are you willing and able to have others who may not have a team join your team on game day?
+                            </div>
+                            <select class="form-select" name="additional_members" id="additional_members" required>
+                                <option disabled selected>Select One</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-                <div class="mt-5 md:mt-0 md:col-span-2">
-                    <div class="shadow sm:rounded-md sm:overflow-hidden">
-                        <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
-                            <div class="grid grid-cols-3 gap-6">
-                                <div class="col-span-3 sm:col-span-2">
-                                    <label for="team_name" class="block text-sm font-medium text-gray-700"> Team
-                                        Name </label>
-                                    <div class="mt-1 flex rounded-md shadow-sm">
-                                        <input type="text" name="team_name" id="team_name"
-                                               class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300">
-                                    </div>
-                                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row pt-3">
+        <div class="col-12">
+            <div class="card">
+                <h5 class="card-header">Team Members</h5>
+                <div class="card-body">
+                    <p class="card-text">
+                        Each member you specify here will receive an email with individual instructions after submitting your registration.
+                        Please ensure all contact information is accurate!
+                    </p>
+                    <button type="button" class="btn btn-success">Add Team Member</button>
+                    <div class="row pt-3">
+                        <div class="col-sm-12 col-md-6 col-lg-4">
+                            <label for="member_first_name" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="member_first_name" required>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4">
+                            <label for="member_last_name" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="member_last_name" required>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4">
+                            <label for="member_alt_name" class="form-label">Knight Name</label>
+                            <input type="text" class="form-control" id="member_alt_name">
+                        </div>
+                    </div>
+                    <div class="row pt-3">
+                        <div class="col-sm-12 col-md-6 col-lg-4">
+                            <label for="member_email" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="member_email" required>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4">
+                            <label for="member_phone" class="form-label">Phone Number</label>
+                            <input type="text" class="form-control" id="member_phone" required>
+                        </div>
+                    </div>
+                    <div class="row pt-3">
+                        <div class="col-sm-12 col-md-6 col-lg-4">
+                            <label for="member_affiliation" class="form-label">Affiliation</label>
+                            <input type="text" class="form-control" id="member_affiliation" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row pt-3">
+        <div class="col-12">
+            <div class="card">
+                <h5 class="card-header">Additional Information</h5>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="mb-3 col-sm-12 col-md-6">
+                            <label for="payment_method" class="form-label mb-0">Payment Method</label>
+                            <div class="form-text">
+                                Amount Due: <b>$40</b> ($10 discount for including a RAT)
                             </div>
-                            <div class="grid grid-cols-3 gap-6">
-                                <div class="col-span-3 sm:col-span-2">
-                                    <label for="team_motto" class="block text-sm font-medium text-gray-700"> Team
-                                        Motto </label>
-                                    <div class="mt-1 flex rounded-md shadow-sm">
-                                        <input type="text" name="team_motto" id="team_motto"
-                                               class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300">
-                                    </div>
-                                </div>
+                            <select class="form-select" name="payment_method" id="payment_method" required>
+                                <option disabled selected>Select One</option>
+                                <option value="venmo">In Advance - Venmo</option>
+                                <option value="google">In Advance - Google Pay</option>
+                                <option value="credit">In Advance - Credit/Debit Card</option>
+                                <option value="day_of">Day Of - Any Method</option>
+                                <option value="other">Other - Please contact me to discuss</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-3 col-sm-12 col-md-6">
+                            Terms & Conditions
+                            <div class="form-text pb-2">
+                                Get-a-Clue is a fun, long standing tradition that is dependent on one simple rule: the first place team hosts GAC for the next year. By filling out this registration and participating, you are agreeing to follow this rule. You understand that if your team comes in first place, you will be expected to host GAC for 2023. GAC almost ended in 2017 because a team did not follow this rule. If you win but decide not to host, you are ending a 30+ year long tradition. We can even offer support and advice when you find yourself planning GAC. We want you to have fun. We don’t want you to panic. But we need you to understand that there’s a chance that you’ll end up with the responsibility, and it’s really not ok to just skip out on it. From generations of past, current, and future GAC players: we’re all counting on you.
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="1" id="accept_terms" required>
+                                <label class="form-check-label" for="accept_terms">
+                                    We accept the terms & conditions.
+                                </label>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="hidden sm:block" aria-hidden="true">
-                <div class="py-3">
-                    <div class="border-t border-gray-200"></div>
-                </div>
-            </div>
-            <div class="mt-10 sm:mt-0">
-                <div class="md:grid md:grid-cols-3 md:gap-6">
-                    <div class="md:col-span-1">
-                        <div class="px-4 sm:px-0">
-                            <h3 class="text-lg font-medium leading-6 text-gray-900">Team Members</h3>
-                            <p class="mt-1 text-sm text-gray-600">Please provide information for all team members.</p>
-                        </div>
-                    </div>
-                    <div class="mt-5 md:mt-0 md:col-span-2">
-                        <div class="shadow overflow-hidden sm:rounded-md">
-                            <div class="px-4 py-3 bg-white sm:px-6">
-                                <button type="button" class="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Add Team Member</button>
-                            </div>
-                            <div class="px-4 py-5 bg-white sm:p-6">
-                                <div class="grid grid-cols-6 gap-6">
-                                    <div class="col-span-6 sm:col-span-3">
-                                        <label for="first-name" class="block text-sm font-medium text-gray-700">First name</label>
-                                        <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                    </div>
-
-                                    <div class="col-span-6 sm:col-span-3">
-                                        <label for="last-name" class="block text-sm font-medium text-gray-700">Last name</label>
-                                        <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
+        </div>
+    </div>
+    <div class="row pt-3 pb-3">
+        <div class="col-12">
+            <button type="button" class="btn btn-primary">Submit Registration</button>
+        </div>
     </div>
 @endsection

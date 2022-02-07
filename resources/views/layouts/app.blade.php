@@ -8,9 +8,9 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-@include('layouts/head')
-<div class="container mx-auto">
-@yield('content')
+<div class="container-fluid">
+    @include('layouts/head')
+    @yield('content')
 </div>
 </body>
 </html>
