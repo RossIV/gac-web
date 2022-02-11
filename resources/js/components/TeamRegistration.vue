@@ -213,10 +213,12 @@ export default {
         },
         cancel_add_new_team_member: function() {
             this.adding_team_member = false;
+            this.new_team_member = {};
         },
         process_new_team_member: function() {
             this.registration.team_members.push(this.new_team_member)
             this.adding_team_member = false;
+            this.new_team_member = {};
         }
     }
 }
