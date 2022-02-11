@@ -14,7 +14,21 @@ class Team extends TeamworkTeam
 {
     use CrudTrait, LogsActivity;
 
-    protected $guarded = ['id'];
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = ['id', 'terms_agreed_at', 'terms_agreed_by'];
+
+    /**
+     * Defines the termsAccepted attribute
+     *
+     * @return bool
+     */
+    public function getTermsAcceptedAttribute() {
+        return $this->terms_accepted_at !== null;
+    }
 
     /**
      * Defines the relationship between Team and EventRegistration models
