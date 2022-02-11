@@ -49,7 +49,7 @@
                     <h5 class="card-header">Team Members</h5>
                     <div class="card-body">
                         <p class="card-text">
-                            Each member you specify here will receive an email with individual instructions after submitting your registration.
+                            Each member specified here will receive an email with individual instructions after submitting the registration.
                             Please ensure all contact information is accurate. <b>Make sure to include yourself!</b>
                         </p>
                         <table class="table table-hover table-striped" v-if="registration.team_members.length > 0">
