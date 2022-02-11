@@ -59,14 +59,16 @@
                             </thead>
                             <tbody>
                             <template v-for="member in registration.team_members">
-                                <td>{{ member.first_name }} {{ member.last_name }} ({{ member.alt_name }})</td>
-                                <td>{{ member.email }}</td>
-                                <td>{{ member.phone }}</td>
-                                <td>{{ member.affiliation }}</td>
-                                <td>
-                                    <button type="button" class="btn">Edit</button>
-                                    <button type="button" class="btn btn-danger">Delete</button>
-                                </td>
+                                <tr>
+                                    <td>{{ member.first_name }} {{ member.last_name }} ({{ member.alt_name }})</td>
+                                    <td>{{ member.email }}</td>
+                                    <td>{{ member.phone }}</td>
+                                    <td>{{ member.affiliation }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-secondary">Edit</button>
+                                        <button type="button" class="btn btn-danger">Delete</button>
+                                    </td>
+                                </tr>
                             </template>
                             </tbody>
                         </table>
