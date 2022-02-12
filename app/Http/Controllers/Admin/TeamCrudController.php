@@ -43,7 +43,12 @@ class TeamCrudController extends CrudController
     {
         CRUD::column('name');
         CRUD::column('motto');
-        CRUD::column('accept_additional_members');
+        $this->crud->addColumn([
+            'name' => 'accept_additional_members',
+            'label' => 'Accept Additional Members',
+            'type' => 'boolean',
+            'options' => [0 => 'No', 1 => 'Yes']
+        ]);
         CRUD::column('owner_id');
 
         /**
@@ -110,8 +115,19 @@ class TeamCrudController extends CrudController
     {
         CRUD::column('name');
         CRUD::column('motto');
-        CRUD::column('accept_additional_members');
-        CRUD::column('owner_id');
+        $this->crud->addColumn([
+            'name' => 'accept_additional_members',
+            'label' => 'Accept Additional Members',
+            'type' => 'boolean',
+            'options' => [0 => 'No', 1 => 'Yes']
+        ]);
+        $this->crud->addColumn([
+            'type' => 'relationship',
+            'name' => 'owner',
+            'label' => 'Owner',
+            'attribute' => 'name',
+            'model' => User::class
+        ]);
         $this->crud->addColumn([
             'type' => 'relationship',
             'name' => 'users',
@@ -121,8 +137,8 @@ class TeamCrudController extends CrudController
         ]);
         $this->crud->addColumn([
             'type' => 'relationship',
-            'name' => 'invites',
-            'label' => 'Invited Members',
+            'name' => 'invitedUsers',
+            'label' => 'Invited Users',
             'attribute' => 'name',
             'model' => User::class
         ]);
