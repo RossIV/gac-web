@@ -63,6 +63,9 @@ class TeamController extends Controller
             'terms_agreed_by' => $terms_agreed_by
         ]);
 
+        // Attach requesting user to the team
+        $request->user()->teams()->attach($team->id);
+
         // Handle adding team members in the same request, if present
         // Create (or use existing) user and invite them to the team
         if ($request->has('members')) {
