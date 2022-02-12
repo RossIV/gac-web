@@ -25,8 +25,8 @@ class StoreTeamRequest extends FormRequest
     {
         return [
             'name' => 'required|string|unique:teams,name',
-            'motto' => 'string',
-            'accept_additional_members' => 'boolean',
+            'motto' => 'required|string',
+            'accept_additional_members' => 'required|boolean',
             'owner_id' => 'integer|exists:users,id|prohibits:owner_email',
             'owner_email' => 'string|exists:users,email|prohibits:owner_id',
             'terms_agreed' => 'boolean',
