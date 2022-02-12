@@ -15,11 +15,11 @@ class Team extends TeamworkTeam
     use CrudTrait, LogsActivity;
 
     /**
-     * The attributes that aren't mass assignable.
+     * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $guarded = ['id', 'terms_agreed_at', 'terms_agreed_by'];
+    protected $fillable = ['name', 'owner_id', 'motto', 'accept_additional_members'];
 
     /**
      * Defines the termsAccepted attribute
