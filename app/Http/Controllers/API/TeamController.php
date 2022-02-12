@@ -85,7 +85,7 @@ class TeamController extends Controller
         }
 
         // Refresh team after adding/inviting members
-        $team = Team::with('users', 'invites')->find($team->id);
+        $team = Team::with('users', 'invitedUsers')->find($team->id);
 
         return response()->json(['status' => 'success', 'result' => $team], 201);
     }
