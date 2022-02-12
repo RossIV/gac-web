@@ -32,6 +32,7 @@ class TeamController extends Controller
     public function store(StoreTeamRequest $request): JsonResponse
     {
         // Allow for specifying owner by email, id, or default to requesting user
+        $owner = null;
         if ($request->has('owner_email')) {
             $email = $request->input('owner_email');
             $owner = User::where('email', $email)->first();
@@ -42,8 +43,10 @@ class TeamController extends Controller
             }
         } elseif ($request->has('owner_id')) {
             $owner_id = $request->input('owner_id');
+            $owner = User::find($owner_id);
         } else {
-            $owner_id = Auth::user()->id;
+            $owner = Auth::user();
+            $owner_id = $owner->id;
         }
 
         // Handle accepting terms
@@ -63,8 +66,8 @@ class TeamController extends Controller
             'terms_agreed_by' => $terms_agreed_by
         ]);
 
-        // Attach requesting user to the team
-        $request->user()->teams()->attach($team->id);
+        // Attach owner to the team
+        $owner->teams()->attach($team->id);
 
         // Handle adding team members in the same request, if present
         // Create (or use existing) user and invite them to the team
