@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Facades\Mail;
 use Mpociot\Teamwork\Teamwork;
 use Mpociot\Teamwork\TeamworkTeam;
@@ -38,6 +39,16 @@ class Team extends TeamworkTeam
     public function registrations(): HasMany
     {
         return $this->hasMany(EventRegistration::class);
+    }
+
+    /**
+     * Defines the relationship between Team and User models through TeamInvite
+     *
+     * @return HasManyThrough
+     */
+    public function invitedUsers(): HasManyThrough
+    {
+        return $this->hasManyThrough(User::class, TeamInvite::class, 'team_id', 'email', 'id', 'email');
     }
 
     /**
