@@ -68,16 +68,16 @@ class TeamController extends Controller
         if ($request->has('members')) {
             foreach ($request->input('members') as $member) {
                 $user = User::firstOrCreate(
-                  [ 'email' => $member->email ],
+                  [ 'email' => $member['email'] ],
                   [
-                      'first_name' => $member->first_name,
-                      'last_name' => $member->last_name,
-                      'alt_name' => $member->alt_name,
-                      'phone' => $member->phone,
-                      'affiliation_id' => $member->affiliation_id
+                      'first_name' => $member['first_name'],
+                      'last_name' => $member['last_name'],
+                      'alt_name' => $member['alt_name'],
+                      'phone' => $member['phone'],
+                      'affiliation_id' => $member['affiliation_id']
                   ]
                 );
-                $invite = $team->invite($member->email);
+                $invite = $team->invite($member['email']);
             }
         }
 
