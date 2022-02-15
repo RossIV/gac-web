@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\API\StoreEventRegistrationRequest;
 use App\Http\Requests\API\UpdateEventRegistrationRequest;
 use App\Models\EventRegistration;
-use App\Models\Team;
 use Illuminate\Http\JsonResponse;
 
 class EventRegistrationController extends Controller
@@ -29,12 +28,22 @@ class EventRegistrationController extends Controller
      */
     public function store(StoreEventRegistrationRequest $request): JsonResponse
     {
-        // Create Team
-        // FirstOrCreate Team Members
-        // Attach Team Members to Team
-        // Get Event from Request
-        // Create Event Registration
-        // Create $0.00 Payment
+        $registration = EventRegistration::create([
+            'event_id' => $request->input('event_id'),
+            'team_id' => $request->input('team_id'),
+            'user_id' => $request->input('user_id', $request->user()->id),
+        ]);
+
+        if ($request->has('payment_method_id')) {
+            $payment = $registration->payments()->create([
+                'payment_method_id' => $request->input('payment_method_id'),
+                'amount' => 0.00
+            ]);
+        }
+
+        // Refresh registration after adding payment
+        $registration = EventRegistration::with('payments',)->find($registration->id);
+        return response()->json(['status' => 'success', 'result' => $registration]);
     }
 
     /**
