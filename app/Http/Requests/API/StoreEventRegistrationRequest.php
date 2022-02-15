@@ -3,6 +3,8 @@
 namespace App\Http\Requests\API;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StoreEventRegistrationRequest extends FormRequest
 {
@@ -11,9 +13,12 @@ class StoreEventRegistrationRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(Request $request)
     {
-        return false;
+        return (
+            Auth::user()->hasRole('super-admin') ||
+            Auth::user()->isOwnerOfTeam($request->input('team_id'))
+        );
     }
 
     /**
@@ -24,7 +29,10 @@ class StoreEventRegistrationRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'event_id' => 'required|integer|exists:events,id',
+            'team_id' => 'required|integer|exists:teams,id',
+            'user_id' => 'integer|exists:users,id',
+            'payment_method_id' => 'integer,exists:payment_methods:id'
         ];
     }
 }
