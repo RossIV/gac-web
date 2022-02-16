@@ -27,6 +27,9 @@ Vue.component('team-registration', require('./components/TeamRegistration.vue').
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+import { Model } from 'vue-api-query'
+Model.$http = axios
+
 const app = new Vue({
     el: '#app',
 });
