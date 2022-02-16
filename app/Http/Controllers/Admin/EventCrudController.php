@@ -72,6 +72,7 @@ class EventCrudController extends CrudController
         CRUD::field('registration_ends_at');
         CRUD::field('registration_starts_at');
         CRUD::field('participant_waiver_url');
+        CRUD::field('terms');
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
@@ -89,5 +90,25 @@ class EventCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+    /**
+     * Define what happens when the Show operation is loaded.
+     *
+     * @see https://backpackforlaravel.com/docs/crud-operation-show
+     * @return void
+     */
+    protected function setupShowOperation()
+    {
+        CRUD::column('name');
+        CRUD::column('cost');
+        CRUD::column('description');
+        CRUD::column('location');
+        CRUD::column('starts_at');
+        CRUD::column('ends_at');
+        CRUD::column('registration_ends_at');
+        CRUD::column('registration_starts_at');
+        CRUD::column('participant_waiver_url');
+        CRUD::column('terms');
     }
 }
