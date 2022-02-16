@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -29,6 +31,42 @@ class Event extends Model
     public function payments(): MorphMany
     {
         return $this->morphMany(Payment::class, 'payable');
+    }
+
+    /**
+     * Scope a query to only include events with a start date after the given date
+     *
+     * @param  Builder  $query
+     * @param  mixed $date
+     * @return void
+     */
+    public function scopeStartsAfter(Builder $query, $date): void
+    {
+        $query->where('starts_at', '>=', Carbon::parse($date));
+    }
+
+    /**
+     * Scope a query to only include active events (currently happening).
+     *
+     * @param  Builder  $query
+     * @return void
+     */
+    public function scopeActive(Builder $query): void
+    {
+        $query->where('starts_at', '<=', Carbon::now())
+            ->where('ends_at', '>=', Carbon::now());
+    }
+
+    /**
+     * Scope a query to only include events with active registration (currently open for registration).
+     *
+     * @param  Builder  $query
+     * @return void
+     */
+    public function scopeActiveRegistration(Builder $query): void
+    {
+        $query->where('registration_starts_at', '<=', Carbon::now())
+            ->where('registration_ends_at', '>=', Carbon::now());
     }
 
     /**
