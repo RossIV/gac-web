@@ -32,7 +32,11 @@ class StoreEventRegistrationRequest extends FormRequest
             'event_id' => 'required|integer|exists:events,id',
             'team_id' => 'required|integer|exists:teams,id',
             'user_id' => 'integer|exists:users,id',
-            'payment_method_id' => 'integer,exists:payment_methods:id'
+            'payment_method_id' => 'integer|exists:payment_methods,id',
+            'payment_notes' => 'string',
+            'terms_agreed' => 'boolean',
+            'internal_notes' => 'string',
+            'external_notes' => 'string'
         ];
     }
 }
