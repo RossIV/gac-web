@@ -63,6 +63,8 @@ class EventRegistrationCrudController extends CrudController
         CRUD::field('event_id');
         CRUD::field('team_id');
         CRUD::field('user_id');
+        CRUD::field('external_notes');
+        CRUD::field('internal_notes');
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
@@ -80,5 +82,27 @@ class EventRegistrationCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+    /**
+     * Define what happens when the Show operation is loaded.
+     *
+     * @see https://backpackforlaravel.com/docs/crud-operation-show
+     * @return void
+     */
+    protected function setupShowOperation()
+    {
+        $this->crud->set('show.setFromDb', false);
+
+        CRUD::column('event_id');
+        CRUD::column('team_id');
+        CRUD::column('user_id');
+        CRUD::column('terms_agreed_at');
+        CRUD::column('terms_agreed_by');
+        CRUD::column('external_notes');
+        CRUD::column('internal_notes');
+        CRUD::column('created_at');
+        CRUD::column('updated_at');
+        CRUD::column('deleted_at');
     }
 }
