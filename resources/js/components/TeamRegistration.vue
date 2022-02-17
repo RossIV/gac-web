@@ -57,13 +57,13 @@
                             <div class="row">
                                 <div class="mb-3 col-sm-12 col-md-6">
                                     <label for="team_name" class="form-label" >Team Name</label>
-                                    <input type="text" class="form-control" id="team_name" v-model="registration.team_name">
+                                    <input type="text" class="form-control" id="team_name" v-model="team.name">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="mb-3 col-sm-12 col-md-6">
                                     <label for="team_motto" class="form-label">Team Motto</label>
-                                    <input type="text" class="form-control" id="team_motto" v-model="registration.team_motto">
+                                    <input type="text" class="form-control" id="team_motto" v-model="team.motto">
                                 </div>
                             </div>
                         </div>
@@ -79,18 +79,18 @@
                                 Each member specified here will receive an email with individual instructions after submitting the registration.
                                 Please ensure all contact information is accurate. <b>Make sure to include yourself!</b>
                             </p>
-                            <table class="table table-hover table-striped caption-top" v-if="registration.team_members.length > 0">
-                                <caption>{{ registration.team_name }}</caption>
+                            <table class="table table-hover table-striped caption-top" v-if="team.members.length > 0">
+                                <caption>{{ team.name }}</caption>
                                 <thead class="table-light">
                                 <th>Name</th><th>Email</th><th>Phone</th><th>Affiliation</th><th>Actions</th>
                                 </thead>
                                 <tbody>
-                                <template v-for="member in registration.team_members">
+                                <template v-for="member in team.members">
                                     <tr>
                                         <td>{{ member.first_name }} {{ member.last_name }} ({{ member.alt_name }})</td>
                                         <td>{{ member.email }}</td>
                                         <td>{{ member.phone }}</td>
-                                        <td>{{ member.affiliation }}</td>
+                                        <td>{{ affiliationName(member.affiliation_id) }}</td>
                                         <td>
                                             <button type="button" class="btn btn-secondary">Edit</button>
                                             <button type="button" class="btn btn-danger">Delete</button>
@@ -133,7 +133,7 @@
                                 <div class="row pt-3">
                                     <div class="col-sm-12 col-md-6 col-lg-4">
                                         <label for="member_affiliation" class="form-label">Affiliation</label>
-                                        <select id="member_affiliation" class="form-select" v-model="new_team_member.affiliation">
+                                        <select id="member_affiliation" class="form-select" v-model="new_team_member.affiliation_id">
                                             <option selected disabled>Select One</option>
                                             <template v-for="affiliation in affiliations">
                                                 <option :value="affiliation.id">{{ affiliation.name }}</option>
@@ -156,7 +156,7 @@
                                     <div class="form-text">
                                         Are you willing and able to have others who may not have a team join your team on game day?
                                     </div>
-                                    <select class="form-select" name="additional_members" id="additional_members" required v-model="registration.additional_members">
+                                    <select class="form-select" name="additional_members" id="additional_members" required v-model="team.accept_additional_members">
                                         <option selected disabled>Select One</option>
                                         <option value="1">Yes</option>
                                         <option value="0">No</option>
@@ -176,14 +176,26 @@
                                 <div class="mb-3 col-sm-12 col-md-6">
                                     <label for="payment_method" class="form-label mb-0">Payment Method</label>
                                     <div class="form-text">
-                                        Amount Due: <b>$40</b> ($10 discount for including a RAT)
+                                        <b>Amount Due:</b> $40 ($10 discount for including a R.A.T.!)
                                     </div>
-                                    <select class="form-select" name="payment_method" id="payment_method" required v-model="registration.payment_method">
+                                    <select class="form-select" name="payment_method" id="payment_method" required v-model="registration.payment_method_id">
                                         <option disabled selected>Select One</option>
                                         <template v-for="method in paymentMethods">
                                             <option :value="method.id">{{ method.name }}</option>
                                         </template>
                                     </select>
+                                    <div class="form-text">
+                                        {{ paymentMethodInstructions }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" v-if="paymentNotesRequired">
+                                <div class="mb-3 col-sm-12 col-md-6">
+                                    <label for="payment_notes" class="form-label mb-0">Payment Notes</label>
+                                    <div class="form-text">
+                                        Please provide the username/email/phone from which you want the payment to be requested.
+                                    </div>
+                                    <input type="text" id="payment_notes" class="form-control" :required="paymentNotesRequired" v-model="registration.payment_notes">
                                 </div>
                             </div>
                             <div class="row">
@@ -193,7 +205,7 @@
                                         {{ events[0].terms }}
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="1" id="accept_terms" required v-model="registration.accept_terms">
+                                        <input class="form-check-input" type="checkbox" value="1" id="accept_terms" required v-model="registration.terms_agreed">
                                         <label class="form-check-label" for="accept_terms">
                                             We accept the terms & conditions.
                                         </label>
@@ -206,7 +218,7 @@
             </div>
             <div class="row pt-3 pb-3">
                 <div class="col-12">
-                    <button type="button" class="btn btn-primary">Submit Registration</button>
+                    <button type="button" class="btn btn-primary" v-on:click="submitRegistration">Submit Registration</button>
                 </div>
             </div>
         </div>
@@ -216,19 +228,26 @@
 <script>
 import Affiliation from '../models/Affiliation'
 import Event from '../models/Event'
+import EventRegistration from '../models/EventRegistration'
 import PaymentMethod from '../models/PaymentMethod'
+import Team from '../models/Team'
 
 export default {
     name: "TeamRegistration",
     data: function () {
         return {
             registration: {
-                team_name: "",
-                team_motto: "",
-                team_members: [],
-                additional_members: "",
-                payment_method: "",
-                accept_terms: ""
+                event_id: "",
+                team_id: "",
+                payment_method_id: "",
+                payment_notes: "",
+                terms_agreed: ""
+            },
+            team: {
+                name: "",
+                motto: "",
+                members: [],
+                accept_additional_members: "",
             },
             adding_team_member: false,
             editing_team_member: false,
@@ -238,13 +257,13 @@ export default {
                 alt_name: "",
                 email: "",
                 phone: "",
-                affiliation: ""
+                affiliation_id: ""
             },
             events: [],
             affiliations: [],
             paymentMethods: [],
             hasRegistration: false,
-            loading: false
+            loading: true
         }
     },
     methods: {
@@ -256,7 +275,7 @@ export default {
             this.new_team_member = {};
         },
         process_new_team_member: function() {
-            this.registration.team_members.push(this.new_team_member)
+            this.team.members.push(this.new_team_member)
             this.adding_team_member = false;
             this.new_team_member = {};
         },
@@ -264,6 +283,19 @@ export default {
             this.events = await Event.where('active_registration', '1').get();
             this.affiliations = await Affiliation.get();
             this.paymentMethods = await PaymentMethod.get();
+        },
+        submitRegistration: async function() {
+            let team = await (new Team(this.team)).save()
+            console.log(team)
+
+            this.registration.event_id = this.events[0].id
+            this.registration.team_id = team.id
+            let registration = await (new EventRegistration(this.registration)).save()
+            console.log(registration)
+        },
+        affiliationName: function(id) {
+            let affil = this.affiliations.filter(obj => {return obj['id'] === id})[0]
+            return affil.name
         }
     },
     mounted: function() {
@@ -274,6 +306,23 @@ export default {
     computed: {
         showRegistrationForm: function() {
             return !this.loading && this.events.length > 0
+        },
+        paymentNotesRequired: function() {
+            if (this.registration.payment_method_id) {
+                let method = this.paymentMethods.filter(obj => {return obj['id'] === this.registration.payment_method_id})[0]
+                return method.additional_info_required
+            } else {
+                return false
+            }
+        },
+        paymentMethodInstructions: function() {
+            if (this.registration.payment_method_id) {
+                let method = this.paymentMethods.filter(obj => {return obj['id'] === this.registration.payment_method_id})[0]
+                let fee = (method.fee !== 0) ? ` ($${method.fee} Fee Applies)` : ''
+                return method.instructions + fee
+            } else {
+                return ''
+            }
         }
     }
 }
