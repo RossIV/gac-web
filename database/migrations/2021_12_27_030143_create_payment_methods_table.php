@@ -17,6 +17,7 @@ class CreatePaymentMethodsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('instructions');
+            $table->boolean('additional_info_required');
             $table->boolean('is_active');
             $table->double('fee');
             $table->timestamps();
