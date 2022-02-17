@@ -49,21 +49,11 @@ class TeamController extends Controller
             $owner_id = $owner->id;
         }
 
-        // Handle accepting terms
-        if ($request->has('terms_agreed') && $request->input('terms_agreed') == true) {
-            $terms_agreed_at = Carbon::now();
-            $terms_agreed_by = Auth::user()->id;
-        } else {
-            $terms_agreed_at = $terms_agreed_by = null;
-        }
-
         $team = Team::create([
             'name' => $request->input('name'),
             'motto' => $request->input('motto'),
             'accept_additional_members' => $request->input('accept_additional_members'),
-            'owner_id' => $owner_id,
-            'terms_agreed_at' => $terms_agreed_at,
-            'terms_agreed_by' => $terms_agreed_by
+            'owner_id' => $owner_id
         ]);
 
         // Attach owner to the team
