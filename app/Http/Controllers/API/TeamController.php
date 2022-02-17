@@ -7,7 +7,6 @@ use App\Http\Requests\API\StoreTeamRequest;
 use App\Http\Requests\API\UpdateTeamRequest;
 use App\Models\Team;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
@@ -80,7 +79,7 @@ class TeamController extends Controller
         // Refresh team after adding/inviting members
         $team = Team::with('users', 'invitedUsers')->find($team->id);
 
-        return response()->json(['status' => 'success', 'result' => $team], 201);
+        return response()->json($team, 201);
     }
 
     /**
