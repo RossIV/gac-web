@@ -309,9 +309,10 @@ export default {
             this.editing_team_member = true
         },
         deleteTeamMember: function(index) {
+            let name = `${this.team.members[index].first_name} ${this.team.members[index].last_name}`
             Swal.fire({
                 title: 'Are you sure?',
-                text: `Deleting ${this.team.members[index].first_name} ${this.team.members[index].last_name}`,
+                text: `Deleting ${name}`,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -322,7 +323,7 @@ export default {
                     this.$delete(this.team.members, index)
                     Swal.fire(
                         'Deleted!',
-                        `${this.team.members[index].first_name} ${this.team.members[index].last_name} has been deleted`,
+                        `${name} has been deleted`,
                         'success'
                     )
                 }
