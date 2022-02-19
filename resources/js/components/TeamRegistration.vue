@@ -246,6 +246,7 @@ import EventRegistration from '../models/EventRegistration'
 import PaymentMethod from '../models/PaymentMethod'
 import Team from '../models/Team'
 import { required, requiredIf, email, numeric, sameAs, minLength } from 'vuelidate/lib/validators'
+import Swal from 'sweetalert2'
 
 export default {
     name: "TeamRegistration",

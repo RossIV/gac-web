@@ -30,8 +30,6 @@ Vue.component('team-registration', require('./components/TeamRegistration.vue').
 import { Model } from 'vue-api-query'
 Model.$http = axios
 
-import Swal from 'sweetalert2'
-
 import Vuelidate from 'vuelidate'
 Vue.use(Vuelidate)
 
