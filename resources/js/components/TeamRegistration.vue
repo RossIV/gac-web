@@ -87,28 +87,28 @@
                                 <th>Name</th><th>Email</th><th>Phone</th><th>Affiliation</th><th>Actions</th>
                                 </thead>
                                 <tbody>
-                                <template v-for="member in team.members">
+                                <template v-for="(member, index) in team.members">
                                     <tr>
                                         <td>{{ member.first_name }} {{ member.last_name }} ({{ member.alt_name }})</td>
                                         <td>{{ member.email }}</td>
                                         <td>{{ member.phone }}</td>
                                         <td>{{ affiliationName(member.affiliation_id) }}</td>
                                         <td>
-                                            <button type="button" class="btn btn-secondary">Edit</button>
-                                            <button type="button" class="btn btn-danger">Delete</button>
+                                            <button type="button" class="btn btn-secondary" v-on:click="editTeamMember(index)">Edit</button>
+                                            <button type="button" class="btn btn-danger" v-on:click="deleteTeamMember(index)">Delete</button>
                                         </td>
                                     </tr>
                                 </template>
                                 </tbody>
                             </table>
-                            <button type="button" class="btn btn-success" v-if="!adding_team_member" v-on:click="add_new_team_member">
+                            <button type="button" class="btn btn-success" v-if="!adding_team_member || editing_team_member" v-on:click="addNewTeamMember">
                                 Add Team Member
                             </button>
                             <div class="invalid-feedback d-block" v-if="!$v.team.members.required && $v.team.members.$dirty">Add at least one team member</div>
 
-                            <template v-if="adding_team_member">
+                            <template v-if="adding_team_member || editing_team_member">
                                 <hr>
-                                <h4>New Team Member Details:</h4>
+                                <h4>Team Member Details:</h4>
                                 <div class="row pt-3">
                                     <div class="col-sm-12 col-md-6 col-lg-4">
                                         <label for="member_first_name" class="form-label">First Name</label>
@@ -154,8 +154,8 @@
                                 </div>
                                 <div class="row pt-3">
                                     <div class="col-sm-12 col-md-6 col-lg-4">
-                                        <button type="button" class="btn btn-primary" v-on:click="process_new_team_member">Add Member</button>
-                                        <button type="button" class="btn btn-danger" v-on:click="cancel_add_new_team_member">Cancel</button>
+                                        <button type="button" class="btn btn-primary" v-on:click="processNewTeamMember">Save Team Member</button>
+                                        <button type="button" class="btn btn-danger" v-on:click="cancelAddNewTeamMember">Cancel</button>
                                     </div>
                                 </div>
                                 <hr>
@@ -284,23 +284,50 @@ export default {
         }
     },
     methods: {
-        add_new_team_member: function() {
+        addNewTeamMember: function() {
             this.adding_team_member = true;
         },
-        cancel_add_new_team_member: function() {
+        cancelAddNewTeamMember: function() {
             this.adding_team_member = false;
             this.new_team_member = {};
         },
-        process_new_team_member: function() {
+        processNewTeamMember: function() {
             this.$v.new_team_member.$touch()
             if (!this.$v.new_team_member.$invalid) {
                 this.team.members.push(this.new_team_member)
                 this.$v.team.members.$touch()
                 this.adding_team_member = false;
+                this.editing_team_member = false;
                 this.new_team_member = {};
+                this.$v.new_team_member.$reset()
             }
         },
-        load_initial_data: async function() {
+        editTeamMember: function(index) {
+            this.new_team_member = this.team.members[index]
+            this.$delete(this.team.members, index)
+            this.editing_team_member = true
+        },
+        deleteTeamMember: function(index) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: `Deleting ${this.team.members[index].first_name} ${this.team.members[index].last_name}`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirm Deletion'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.$delete(this.team.members, index)
+                    Swal.fire(
+                        'Deleted!',
+                        `${this.team.members[index].first_name} ${this.team.members[index].last_name} has been deleted`,
+                        'success'
+                    )
+                }
+            })
+        },
+        loadInitialData: async function() {
             this.events = await Event.where('active_registration', '1').get();
             this.affiliations = await Affiliation.get();
             this.paymentMethods = await PaymentMethod.get();
@@ -332,7 +359,7 @@ export default {
     },
     mounted: function() {
         this.loading = true
-        this.load_initial_data()
+        this.loadInitialData()
         this.loading = false
     },
     computed: {
