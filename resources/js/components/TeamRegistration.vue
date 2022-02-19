@@ -56,14 +56,16 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="mb-3 col-sm-12 col-md-6">
-                                    <label for="team_name" class="form-label" >Team Name</label>
-                                    <input type="text" class="form-control" id="team_name" v-model="team.name">
+                                    <label for="team_name" class="form-label">Team Name</label>
+                                    <input type="text" class="form-control" id="team_name" v-model="team.name" :class="{ 'is-invalid': $v.team.name.$error }">
+                                    <div class="invalid-feedback" v-if="!$v.team.name.required">Team Name is required</div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="mb-3 col-sm-12 col-md-6">
                                     <label for="team_motto" class="form-label">Team Motto</label>
-                                    <input type="text" class="form-control" id="team_motto" v-model="team.motto">
+                                    <input type="text" class="form-control" id="team_motto" v-model="team.motto" :class="{ 'is-invalid': $v.team.motto.$error }">
+                                    <div class="invalid-feedback" v-if="!$v.team.motto.required">Team Motto is required</div>
                                 </div>
                             </div>
                         </div>
@@ -102,6 +104,7 @@
                             <button type="button" class="btn btn-success" v-if="!adding_team_member" v-on:click="add_new_team_member">
                                 Add Team Member
                             </button>
+                            <div class="invalid-feedback d-block" v-if="!$v.team.members.required && $v.team.members.$dirty">Add at least one team member</div>
 
                             <template v-if="adding_team_member">
                                 <hr>
@@ -109,36 +112,44 @@
                                 <div class="row pt-3">
                                     <div class="col-sm-12 col-md-6 col-lg-4">
                                         <label for="member_first_name" class="form-label">First Name</label>
-                                        <input type="text" class="form-control" id="member_first_name" required v-model="new_team_member.first_name">
+                                        <input type="text" class="form-control" id="member_first_name" required v-model="new_team_member.first_name" :class="{ 'is-invalid': $v.new_team_member.first_name.$error }">
+                                        <div class="invalid-feedback" v-if="!$v.new_team_member.first_name.required">First Name is required</div>
                                     </div>
                                     <div class="col-sm-12 col-md-6 col-lg-4">
                                         <label for="member_last_name" class="form-label">Last Name</label>
-                                        <input type="text" class="form-control" id="member_last_name" required v-model="new_team_member.last_name">
+                                        <input type="text" class="form-control" id="member_last_name" required v-model="new_team_member.last_name" :class="{ 'is-invalid': $v.new_team_member.last_name.$error }">
+                                        <div class="invalid-feedback" v-if="!$v.new_team_member.last_name.required">Last Name is required</div>
                                     </div>
                                     <div class="col-sm-12 col-md-6 col-lg-4">
                                         <label for="member_alt_name" class="form-label">Knight Name</label>
-                                        <input type="text" class="form-control" id="member_alt_name" v-model="new_team_member.alt_name">
+                                        <input type="text" class="form-control" id="member_alt_name" v-model="new_team_member.alt_name" :class="{ 'is-invalid': $v.new_team_member.alt_name.$error }">
+                                        <div class="invalid-feedback" v-if="!$v.new_team_member.alt_name.required">Knight Name is required</div>
                                     </div>
                                 </div>
                                 <div class="row pt-3">
                                     <div class="col-sm-12 col-md-6 col-lg-4">
                                         <label for="member_email" class="form-label">Email Address</label>
-                                        <input type="email" class="form-control" id="member_email" required v-model="new_team_member.email">
+                                        <input type="email" class="form-control" id="member_email" required v-model="new_team_member.email" :class="{ 'is-invalid': $v.new_team_member.email.$error }">
+                                        <div class="invalid-feedback" v-if="!$v.new_team_member.email.required">Email is required</div>
+                                        <div class="invalid-feedback" v-if="!$v.new_team_member.email.email">Email must be a valid email address</div>
                                     </div>
                                     <div class="col-sm-12 col-md-6 col-lg-4">
-                                        <label for="member_phone" class="form-label">Phone Number</label>
-                                        <input type="text" class="form-control" id="member_phone" required v-model="new_team_member.phone">
+                                        <label for="member_phone" class="form-label">Phone Number</label> <small>(numbers only)</small>
+                                        <input type="tel" class="form-control" id="member_phone" required v-model="new_team_member.phone" :class="{ 'is-invalid': $v.new_team_member.phone.$error }">
+                                        <div class="invalid-feedback" v-if="!$v.new_team_member.phone.required">Phone Number is required</div>
+                                        <div class="invalid-feedback" v-if="!$v.new_team_member.phone.numeric">Phone Number must contain numbers only</div>
                                     </div>
                                 </div>
                                 <div class="row pt-3">
                                     <div class="col-sm-12 col-md-6 col-lg-4">
                                         <label for="member_affiliation" class="form-label">Affiliation</label>
-                                        <select id="member_affiliation" class="form-select" v-model="new_team_member.affiliation_id">
+                                        <select id="member_affiliation" class="form-select" v-model="new_team_member.affiliation_id" :class="{ 'is-invalid': $v.new_team_member.affiliation_id.$error }">
                                             <option selected disabled>Select One</option>
                                             <template v-for="affiliation in affiliations">
                                                 <option :value="affiliation.id">{{ affiliation.name }}</option>
                                             </template>
                                         </select>
+                                        <div class="invalid-feedback" v-if="!$v.new_team_member.affiliation_id.required">Affiliation is required</div>
                                     </div>
                                 </div>
                                 <div class="row pt-3">
@@ -156,11 +167,12 @@
                                     <div class="form-text">
                                         Are you willing and able to have others who may not have a team join your team on game day?
                                     </div>
-                                    <select class="form-select" name="additional_members" id="additional_members" required v-model="team.accept_additional_members">
+                                    <select class="form-select" name="additional_members" id="additional_members" required v-model="team.accept_additional_members" :class="{ 'is-invalid': $v.team.accept_additional_members.$error }">
                                         <option selected disabled>Select One</option>
                                         <option value="1">Yes</option>
                                         <option value="0">No</option>
                                     </select>
+                                    <div class="invalid-feedback" v-if="!$v.team.accept_additional_members.required">Please select an option</div>
                                 </div>
                             </div>
                         </div>
@@ -178,7 +190,7 @@
                                     <div class="form-text">
                                         <b>Amount Due:</b> $40 ($10 discount for including a R.A.T.!)
                                     </div>
-                                    <select class="form-select" name="payment_method" id="payment_method" required v-model="registration.payment_method_id">
+                                    <select class="form-select" name="payment_method" id="payment_method" required v-model="registration.payment_method_id" :class="{ 'is-invalid': $v.registration.payment_method_id.$error }">
                                         <option disabled selected>Select One</option>
                                         <template v-for="method in paymentMethods">
                                             <option :value="method.id">{{ method.name }}</option>
@@ -187,6 +199,7 @@
                                     <div class="form-text">
                                         {{ paymentMethodInstructions }}
                                     </div>
+                                    <div class="invalid-feedback" v-if="!$v.registration.payment_method_id.required">Please select an option</div>
                                 </div>
                             </div>
                             <div class="row" v-if="paymentNotesRequired">
@@ -195,7 +208,7 @@
                                     <div class="form-text">
                                         Please provide the username/email/phone from which you want the payment to be requested.
                                     </div>
-                                    <input type="text" id="payment_notes" class="form-control" :required="paymentNotesRequired" v-model="registration.payment_notes">
+                                    <input type="text" id="payment_notes" class="form-control" :required="paymentNotesRequired" v-model="registration.payment_notes" :class="{ 'is-invalid': $v.registration.payment_notes.$error }">
                                 </div>
                             </div>
                             <div class="row">
@@ -205,10 +218,11 @@
                                         {{ events[0].terms }}
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="1" id="accept_terms" required v-model="registration.terms_agreed">
+                                        <input class="form-check-input" type="checkbox" value="1" id="accept_terms" required v-model="registration.terms_agreed" :class="{ 'is-invalid': $v.registration.terms_agreed.$error }">
                                         <label class="form-check-label" for="accept_terms">
                                             We accept the terms & conditions.
                                         </label>
+                                        <div class="invalid-feedback" v-if="!$v.registration.terms_agreed.required || !$v.registration.terms_agreed.sameAs">You must accept the terms & conditions to register</div>
                                     </div>
                                 </div>
                             </div>
@@ -218,7 +232,7 @@
             </div>
             <div class="row pt-3 pb-3">
                 <div class="col-12">
-                    <button type="button" class="btn btn-primary" v-on:click="submitRegistration">Submit Registration</button>
+                    <button type="button" :class="registrationSubmitButtonClass" v-on:click="submitRegistration" :disabled="submitting" v-html="registrationSubmitButtonText"></button>
                 </div>
             </div>
         </div>
@@ -231,6 +245,7 @@ import Event from '../models/Event'
 import EventRegistration from '../models/EventRegistration'
 import PaymentMethod from '../models/PaymentMethod'
 import Team from '../models/Team'
+import { required, requiredIf, email, numeric, sameAs, minLength } from 'vuelidate/lib/validators'
 
 export default {
     name: "TeamRegistration",
@@ -263,7 +278,9 @@ export default {
             affiliations: [],
             paymentMethods: [],
             hasRegistration: false,
-            loading: true
+            loading: true,
+            submitting: false,
+            submitStatus: ''
         }
     },
     methods: {
@@ -275,9 +292,13 @@ export default {
             this.new_team_member = {};
         },
         process_new_team_member: function() {
-            this.team.members.push(this.new_team_member)
-            this.adding_team_member = false;
-            this.new_team_member = {};
+            this.$v.new_team_member.$touch()
+            if (!this.$v.new_team_member.$invalid) {
+                this.team.members.push(this.new_team_member)
+                this.$v.team.members.$touch()
+                this.adding_team_member = false;
+                this.new_team_member = {};
+            }
         },
         load_initial_data: async function() {
             this.events = await Event.where('active_registration', '1').get();
@@ -285,13 +306,24 @@ export default {
             this.paymentMethods = await PaymentMethod.get();
         },
         submitRegistration: async function() {
-            let team = await (new Team(this.team)).save()
-            console.log(team)
+            this.submitting = true
+            this.$v.team.$touch()
+            this.$v.registration.$touch()
 
-            this.registration.event_id = this.events[0].id
-            this.registration.team_id = team.id
-            let registration = await (new EventRegistration(this.registration)).save()
-            console.log(registration)
+            if (!this.$v.team.$invalid && !this.$v.registration.$invalid) {
+                let team = await (new Team(this.team)).save()
+                console.log(team)
+
+                this.registration.event_id = this.events[0].id
+                this.registration.team_id = team.id
+                let registration = await (new EventRegistration(this.registration)).save()
+                console.log(registration)
+
+                this.submitting = false
+                this.submitStatus = 'success'
+            } else {
+                this.submitting = false
+            }
         },
         affiliationName: function(id) {
             let affil = this.affiliations.filter(obj => {return obj['id'] === id})[0]
@@ -323,6 +355,41 @@ export default {
             } else {
                 return ''
             }
+        },
+        registrationSubmitButtonClass: function() {
+            if (this.submitting) {
+                return 'btn btn-secondary'
+            } else {
+                return (this.$v.registration.$invalid && this.$v.registration.$anyDirty) ? 'btn btn-danger' : 'btn btn-primary'
+            }
+        },
+        registrationSubmitButtonText: function() {
+            if (this.submitting) {
+                return `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`
+            } else {
+                return (this.$v.registration.$invalid && this.$v.registration.$anyDirty) ? 'Whoops! Please resolve all listed errors.' : 'Submit Registration'
+            }
+        }
+    },
+    validations: {
+        registration: {
+            payment_method_id: { required },
+            payment_notes: { required: requiredIf('paymentNotesRequired')},
+            terms_agreed: { required, sameAs: sameAs( () => true ) }
+        },
+        team: {
+            name: { required },
+            motto: { required },
+            members: { required, minLength: minLength(1), $each: { required} },
+            accept_additional_members: { required }
+        },
+        new_team_member: {
+            first_name: { required: requiredIf(function(foo) { return this.adding_team_member || this.editing_team_member })},
+            last_name: { required: requiredIf(function(foo) { return this.adding_team_member || this.editing_team_member })},
+            alt_name: { required: requiredIf(function(foo) { return this.adding_team_member || this.editing_team_member })},
+            email: { required: requiredIf(function(foo) { return this.adding_team_member || this.editing_team_member }), email},
+            phone: { required: requiredIf(function(foo) { return this.adding_team_member || this.editing_team_member }), numeric},
+            affiliation_id: { required: requiredIf(function(foo) { return this.adding_team_member || this.editing_team_member }), numeric}
         }
     }
 }

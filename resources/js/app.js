@@ -32,6 +32,9 @@ Model.$http = axios
 
 import Swal from 'sweetalert2'
 
+import Vuelidate from 'vuelidate'
+Vue.use(Vuelidate)
+
 const app = new Vue({
     el: '#app',
 });
