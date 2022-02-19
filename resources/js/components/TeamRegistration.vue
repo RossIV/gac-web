@@ -41,8 +41,8 @@
                                 <div class="mb-3 col-sm-12 col-md-6">
                                     <b>Name:</b> {{ this.events[0].name }}<br/>
                                     <b>Location:</b> {{ this.events[0].location }}<br/>
-                                    <b>Date:</b> {{ this.events[0].starts_at }} to {{ this.events[0].ends_at }}<br/>
-                                    <b>Registration:</b> {{ this.events[0].registration_starts_at }} to {{ this.events[0].registration_starts_at }}<br/>
+                                    <b>Date:</b> {{ friendlyEventDate }}<br/>
+                                    <b>Registration Ends:</b> {{ friendlyRegistrationEndDate}}<br/>
                                 </div>
                             </div>
                         </div>
@@ -247,6 +247,7 @@ import PaymentMethod from '../models/PaymentMethod'
 import Team from '../models/Team'
 import { required, requiredIf, email, numeric, sameAs, minLength } from 'vuelidate/lib/validators'
 import Swal from 'sweetalert2'
+import { format, formatRelative } from 'date-fns'
 
 export default {
     name: "TeamRegistration",
@@ -398,6 +399,14 @@ export default {
             } else {
                 return (this.$v.registration.$invalid && this.$v.registration.$anyDirty) ? 'Whoops! Please resolve all listed errors.' : 'Submit Registration'
             }
+        },
+        friendlyEventDate: function() {
+            return format(Date.parse(this.events[0].starts_at), "PPPP p")
+        },
+        friendlyRegistrationEndDate: function() {
+            let relative = formatRelative(Date.parse(this.events[0].registration_ends_at), new Date())
+            let formatted = format(Date.parse(this.events[0].registration_ends_at), "PPPP p")
+            return (relative.includes('at')) ? relative : formatted
         }
     },
     validations: {
