@@ -21,6 +21,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/team-registration', function () {
         return view('team-registration');
     });
+    Route::get('/profile', function () {
+        return view('profile');
+    });
 });
 
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
