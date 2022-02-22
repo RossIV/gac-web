@@ -12,7 +12,7 @@
 
     <div class="col-md-3 text-end">
         @if(Auth::check())
-        <span class="me-2">Welcome, {{ Auth::user()->name }}!</span>
+        <span class="me-2">Welcome, <a href="/profile">{{ Auth::user()->name }}</a>!</span>
         <a role="button" class="btn btn-outline-primary me-2" href="/logout">Logout</a>
         @else
         <a role="button" class="btn btn-primary" href="/login">Log in</a>
