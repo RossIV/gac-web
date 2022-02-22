@@ -28,8 +28,8 @@ class Team extends TeamworkTeam
      *
      * @return bool
      */
-    public function getTermsAcceptedAttribute() {
-        return $this->terms_accepted_at !== null;
+    public function getTermsAgreedAttribute() {
+        return $this->terms_agreed_at !== null;
     }
 
     /**
