@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -20,6 +21,22 @@ class Payment extends Model
      * @var array<int, string>
      */
     protected $guarded = ['id'];
+
+    /**
+     * @return Builder
+     */
+    public function scopeUnpaid(): Builder
+    {
+        return $this->where('amount', '0');
+    }
+
+    /**
+     * @return Builder
+     */
+    public function scopePaid(): Builder
+    {
+        return $this->where('amount', '!=', '0');
+    }
 
     /**
      * Defines the polymorphic relationship between the Payment and other models
