@@ -351,6 +351,17 @@ export default {
 
                 this.submitting = false
                 this.submitStatus = 'success'
+
+                Swal.fire({
+                    title: 'Success!',
+                    text: `${this.team.name} is registered!`,
+                    icon: 'success',
+                    timer: 4000,
+                    showCancelButton: false,
+                    showCloseButton: false
+                }).then((result) => {
+                    window.location.href = "/"
+                })
             } else {
                 this.submitting = false
             }
