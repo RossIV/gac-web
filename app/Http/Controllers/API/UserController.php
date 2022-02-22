@@ -7,7 +7,7 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class UserController extends Controller
 {
@@ -48,9 +48,18 @@ class UserController extends Controller
      *
      * @return JsonResponse
      */
-    public function showSelf(): JsonResponse
+    public function showSelf(Request $request): JsonResponse
     {
-        return response()->json(new UserResource(Auth::user()));
+        $user = QueryBuilder::for(User::class)
+            ->where('id', $request->user()->id)
+            ->allowedIncludes([
+                'nativeTeams', 'nativeTeams.registrations',
+                'ownedNativeTeams', 'ownedNativeTeams.registrations',
+                'currentTeam', 'invites',
+                'affiliation'
+            ])
+            ->first();
+        return response()->json(new UserResource($user));
     }
 
     /**
