@@ -20,6 +20,8 @@ window.Vue = require('vue').default;
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('team-registration', require('./components/TeamRegistration.vue').default);
+Vue.component('user-dashboard', require('./components/UserDashboard.vue').default);
+Vue.component('user-profile', require('./components/UserProfile.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
