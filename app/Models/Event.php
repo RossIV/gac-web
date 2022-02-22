@@ -6,7 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -24,13 +25,23 @@ class Event extends Model
     protected $guarded = [ 'id' ];
 
     /**
-     * Defines the relationship between the Event and Payment models
+     * Defines the relationship between the Event and EventRegistration models
      *
-     * @return MorphMany
+     * @return HasMany
      */
-    public function payments(): MorphMany
+    public function registrations(): HasMany
     {
-        return $this->morphMany(Payment::class, 'payable');
+        return $this->hasMany(EventRegistration::class);
+    }
+
+    /**
+     * Defines the relationship between the Event and Team models
+     *
+     * @return HasManyThrough
+     */
+    public function registeredTeams(): HasManyThrough
+    {
+        return $this->hasManyThrough(Team::class, EventRegistration::class, 'event_id', 'id', 'id', 'team_id');
     }
 
     /**
