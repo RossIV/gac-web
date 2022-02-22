@@ -69,6 +69,28 @@ class User extends Authenticatable
     }
 
     /**
+     * Define relationship between User and Team model
+     * Separate from User <-> Team relationship defined in Teamwork trait because it does weird things
+     *
+     * @return BelongsToMany
+     */
+    public function nativeTeams(): BelongsToMany
+    {
+        return $this->belongsToMany(Team::class);
+    }
+
+    /**
+     * Return native teams that are owned by the current user
+     * Separate from User <-> Team relationship defined in Teamwork trait because it does weird things
+     *
+     * @return BelongsToMany
+     */
+    public function ownedNativeTeams(): BelongsToMany
+    {
+        return $this->nativeTeams()->where('owner_id', $this->id);
+    }
+
+    /**
      * Define relationship between User and LoginToken models
      *
      * @return HasMany
