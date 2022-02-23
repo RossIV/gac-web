@@ -40,7 +40,7 @@ class Payment extends Model
     }
 
     /**
-     * Defines the polymorphic relationship between the Payment and other models
+     * Defines the polymorphic relationship between the Payment and other payable models
      *
      * @return MorphTo
      */
