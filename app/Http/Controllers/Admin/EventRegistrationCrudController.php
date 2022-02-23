@@ -65,6 +65,7 @@ class EventRegistrationCrudController extends CrudController
         CRUD::field('user_id');
         CRUD::field('external_notes');
         CRUD::field('internal_notes');
+        CRUD::field('payments');
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
@@ -101,6 +102,7 @@ class EventRegistrationCrudController extends CrudController
         CRUD::column('terms_agreed_by');
         CRUD::column('external_notes');
         CRUD::column('internal_notes');
+        CRUD::column('payments');
         CRUD::column('created_at');
         CRUD::column('updated_at');
         CRUD::column('deleted_at');
