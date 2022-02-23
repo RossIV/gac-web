@@ -17,13 +17,15 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['auth']], function() {
     Route::get('/', function () {
         return view('welcome');
-    });
+    })->name('home');
+
     Route::get('/team-registration', function () {
         return view('team-registration');
-    });
+    })->name('team-registration');
+
     Route::get('/profile', function () {
         return view('profile');
-    });
+    })->name('profile');
 });
 
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
