@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\PaymentRequest;
+use App\Models\PaymentMethod;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -43,7 +44,13 @@ class PaymentCrudController extends CrudController
         CRUD::column('notes');
         CRUD::column('payable_id');
         CRUD::column('payable_type');
-        CRUD::column('payment_method_id');
+        $this->crud->addColumn([
+            'type' => 'relationship',
+            'name' => 'method',
+            'label' => 'Payment Method',
+            'attribute' => 'name',
+            'model' => PaymentMethod::class
+        ]);
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -66,7 +73,13 @@ class PaymentCrudController extends CrudController
         CRUD::field('notes');
         CRUD::field('payable_id');
         CRUD::field('payable_type');
-        CRUD::field('payment_method_id');
+        $this->crud->addField([
+            'type' => 'relationship',
+            'name' => 'method',
+            'label' => 'Payment Method',
+            'attribute' => 'name',
+            'model' => PaymentMethod::class
+        ]);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
@@ -83,6 +96,16 @@ class PaymentCrudController extends CrudController
      */
     protected function setupUpdateOperation()
     {
-        $this->setupCreateOperation();
+        CRUD::setValidation(PaymentRequest::class);
+
+        CRUD::field('amount');
+        CRUD::field('notes');
+        $this->crud->addField([
+            'type' => 'relationship',
+            'name' => 'method',
+            'label' => 'Payment Method',
+            'attribute' => 'name',
+            'model' => PaymentMethod::class
+        ]);
     }
 }
