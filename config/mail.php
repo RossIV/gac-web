@@ -96,6 +96,11 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+    'reply_to' => [
+        'address' => env('MAIL_REPLYTO_ADDRESS', 'hello-reply@example.com'),
+        'name' => env('MAIL_REPLYTO_NAME', 'Example Reply')
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Markdown Mail Settings
