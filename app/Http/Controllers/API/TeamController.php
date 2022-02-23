@@ -59,7 +59,7 @@ class TeamController extends Controller
         $owner->teams()->attach($team->id);
 
         // Handle adding team members in the same request, if present
-        // Create (or use existing) user and invite them to the team
+        // Create (or use existing) user and attach them to the team
         if ($request->has('members')) {
             foreach ($request->input('members') as $member) {
                 $user = User::firstOrCreate(
@@ -72,7 +72,7 @@ class TeamController extends Controller
                       'affiliation_id' => $member['affiliation_id']
                   ]
                 );
-                $invite = $team->invite($member['email']);
+                $team->users()->attach($user);
             }
         }
 
