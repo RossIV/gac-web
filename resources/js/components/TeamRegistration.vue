@@ -341,13 +341,27 @@ export default {
             this.$v.registration.$touch()
 
             if (!this.$v.team.$invalid && !this.$v.registration.$invalid) {
-                let team = await (new Team(this.team)).save()
-                console.log(team)
-
-                this.registration.event_id = this.events[0].id
-                this.registration.team_id = team.id
-                let registration = await (new EventRegistration(this.registration)).save()
-                console.log(registration)
+                try {
+                    let team = await (new Team(this.team)).save()
+                    this.registration.event_id = this.events[0].id
+                    this.registration.team_id = team.id
+                    let registration = await (new EventRegistration(this.registration)).save()
+                } catch (error) {
+                    console.log(error)
+                    this.submitting = false
+                    this.submitStatus = 'error'
+                    let msg = 'Something went wrong processing your registration. '
+                    msg += 'Please try again, or contact Game Control if the issue persists.'
+                    await Swal.fire({
+                        title: 'Whoops!',
+                        text: msg,
+                        icon: 'error',
+                        timer: 5000,
+                        showCancelButton: false,
+                        showCloseButton: true
+                    })
+                    return
+                }
 
                 this.submitting = false
                 this.submitStatus = 'success'
