@@ -11,10 +11,11 @@
 <div id="app">
     <div class="container-fluid">
         @if(!isset($no_head))
-            @include('layouts/head')
+            @include('layouts.head')
         @endif
         @yield('content')
     </div>
+    @include('layouts.foot')
 </div>
 <script src="{{ mix('/js/app.js') }}"></script>
 </body>
