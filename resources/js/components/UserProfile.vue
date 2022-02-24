@@ -6,6 +6,11 @@
                 <div class="alert alert-primary" role="alert" v-if="loading">
                     <b>Loading...</b>
                 </div>
+                <div class="alert alert-primary" role="alert" v-if="actionRequired">
+                    <h5>Additional Information Needed</h5>
+                    <template v-if="!this.hasEmergencyContact">Please complete the Emergency Contact fields below.<br/></template>
+                    <template v-if="!this.hasSignedWaiver">Please sign the participation waiver using the link below.<br/></template>
+                </div>
             </div>
         </div>
         <div class="row pt-3">
@@ -134,6 +139,20 @@ export default {
         this.loadInitialData()
         this.loading = false
     },
-    computed: {}
+    computed: {
+        actionRequired: function() {
+            return !this.hasEmergencyContact || !this.hasSignedWaiver
+        },
+        hasEmergencyContact: function() {
+            return (
+                this.current_user.emergency_contact_name &&
+                this.current_user.emergency_contact_phone &&
+                this.current_user.emergency_contact_relationship
+            )
+        },
+        hasSignedWaiver: function() {
+            return false
+        }
+    }
 }
 </script>
