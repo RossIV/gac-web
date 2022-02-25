@@ -13,23 +13,52 @@
                 </div>
             </div>
         </div>
-        <div class="row pt-3">
+        <div class="row pt-3" v-if="!loading">
             <div class="col-12">
                 <div class="card">
-                    <h5 class="card-header">Name</h5>
+                    <h5 class="card-header">Personal Information</h5>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-12 col-md-4 col-lg-4">
                                 <label for="first_name" class="form-label">First Name</label>
-                                <input type="text" id="first_name" class="form-control" v-model="current_user.first_name">
+                                <input type="text" id="first_name" class="form-control" v-model="$v.current_user.first_name.$model" :class="{ 'is-invalid': $v.current_user.first_name.$error }">
+                                <div class="invalid-feedback" v-if="!$v.current_user.first_name.required">First Name is required</div>
                             </div>
                             <div class="col-sm-12 col-md-4 col-lg-4">
                                 <label for="last_name" class="form-label">Last Name</label>
-                                <input type="text" id="last_name" class="form-control" v-model="current_user.last_name">
+                                <input type="text" id="last_name" class="form-control" v-model="$v.current_user.last_name.$model" :class="{ 'is-invalid': $v.current_user.last_name.$error }">
+                                <div class="invalid-feedback" v-if="!$v.current_user.last_name.required">Last Name is required</div>
                             </div>
                             <div class="col-sm-12 col-md-4 col-lg-4">
                                 <label for="alt_name" class="form-label">Knight Name</label>
-                                <input type="text" id="alt_name" class="form-control" v-model="current_user.alt_name">
+                                <input type="text" id="alt_name" class="form-control" v-model="$v.current_user.alt_name.$model" :class="{ 'is-invalid': $v.current_user.alt_name.$error }">
+                                <div class="invalid-feedback" v-if="!$v.current_user.alt_name.required">Knight Name is required</div>
+                            </div>
+                        </div>
+                        <div class="row pt-3">
+                            <div class="col-sm-12 col-md-6 col-lg-4">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="text" id="email" class="form-control" v-model="$v.current_user.email.$model" :class="{ 'is-invalid': $v.current_user.email.$error }">
+                                <div class="invalid-feedback" v-if="!$v.current_user.email.required">Email is required</div>
+                                <div class="invalid-feedback" v-if="!$v.current_user.email.email">Email must be a valid email address</div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-4">
+                                <label for="phone" class="form-label">Phone</label> <small>(numbers only)</small>
+                                <input type="tel" id="phone" class="form-control" v-model="$v.current_user.phone.$model" :class="{ 'is-invalid': $v.current_user.phone.$error }">
+                                <div class="invalid-feedback" v-if="!$v.current_user.phone.required">Phone Number is required</div>
+                                <div class="invalid-feedback" v-if="!$v.current_user.phone.numeric">Phone Number must contain numbers only</div>
+                            </div>
+                        </div>
+                        <div class="row pt-3">
+                            <div class="col-sm-12 col-md-6 col-lg-4">
+                                <label for="affiliation_id" class="form-label">Affiliation</label>
+                                <select id="affiliation_id" class="form-select" v-model="current_user.affiliation_id" :class="{ 'is-invalid': $v.current_user.affiliation_id.$error }">
+                                    <option selected disabled>Select One</option>
+                                    <template v-for="affiliation in affiliations">
+                                        <option :value="affiliation.id">{{ affiliation.name }}</option>
+                                    </template>
+                                </select>
+                                <div class="invalid-feedback" v-if="!$v.current_user.affiliation_id.required">Affiliation is required</div>
                             </div>
                         </div>
                     </div>
@@ -37,26 +66,7 @@
             </div>
         </div>
 
-        <div class="row pt-3">
-            <div class="col-12">
-                <div class="card">
-                    <h5 class="card-header">Contact Information</h5>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-12 col-md-6 col-lg-4">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="text" id="email" class="form-control" v-model="current_user.email">
-                            </div>
-                            <div class="col-sm-12 col-md-6 col-lg-4">
-                                <label for="phone" class="form-label">Phone</label>
-                                <input type="tel" id="phone" class="form-control" v-model="current_user.phone">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row pt-3">
+        <div class="row pt-3" v-if="!loading">
             <div class="col-12">
                 <div class="card">
                     <h5 class="card-header">Emergency Contact</h5>
@@ -71,22 +81,26 @@
                         <div class="row pt-3">
                             <div class="col-sm-12 col-md-6 col-lg-4">
                                 <label for="emergency_contact_name" class="form-label">Emergency Contact Name</label>
-                                <input type="text" id="emergency_contact_name" class="form-control" v-model="current_user.emergency_contact_name">
+                                <input type="text" id="emergency_contact_name" class="form-control" v-model="$v.current_user.emergency_contact_name.$model" :class="{ 'is-invalid': $v.current_user.emergency_contact_name.$error }">
+                                <div class="invalid-feedback" v-if="!$v.current_user.emergency_contact_name.required">Emergency Contact Name is required</div>
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-4">
-                                <label for="emergency_contact_phone" class="form-label">Emergency Contact Phone</label>
-                                <input type="tel" id="emergency_contact_phone" class="form-control" v-model="current_user.emergency_contact_phone">
+                                <label for="emergency_contact_phone" class="form-label">Emergency Contact Phone</label> <small>(numbers only)</small>
+                                <input type="tel" id="emergency_contact_phone" class="form-control" v-model="$v.current_user.emergency_contact_phone.$model" :class="{ 'is-invalid': $v.current_user.emergency_contact_phone.$error }">
+                                <div class="invalid-feedback" v-if="!$v.current_user.emergency_contact_phone.required">Emergency Contact Phone is required</div>
+                                <div class="invalid-feedback" v-if="!$v.current_user.emergency_contact_phone.numeric">Emergency Contact Phone must contain numbers only</div>
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-4">
                                 <label for="emergency_contact_relationship" class="form-label">Emergency Contact Relationship</label>
-                                <input type="text" id="emergency_contact_relationship" class="form-control" v-model="current_user.emergency_contact_relationship">
+                                <input type="text" id="emergency_contact_relationship" class="form-control" v-model="$v.current_user.emergency_contact_relationship.$model" :class="{ 'is-invalid': $v.current_user.emergency_contact_relationship.$error }">
+                                <div class="invalid-feedback" v-if="!$v.current_user.emergency_contact_relationship.required">Emergency Contact Relationship is required</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row pt-3">
+        <div class="row pt-3" v-if="!loading">
             <div class="col-12">
                 <div class="card">
                     <h5 class="card-header">Participation Waiver</h5>
@@ -111,28 +125,93 @@
                 </div>
             </div>
         </div>
-        <div class="row pt-3">
+        <div class="row pt-3" v-if="!loading">
             <div class="col-sm-12 col-md-4">
-                <button type="button" class="btn btn-primary">Save Profile</button>
+                <button type="button" class="btn btn-primary" v-on:click="processUser" :class="saveButtonClass" :disabled="submitting" v-html="saveButtonText">Save Profile</button>
             </div>
         </div>
     </div>
 </template>
 <script>
+import Affiliation from "../models/Affiliation";
 import CurrentUser from "../models/CurrentUser";
+import User from "../models/User";
+import { required, email, numeric } from 'vuelidate/lib/validators'
+import Swal from 'sweetalert2'
 
 export default {
     name: "UserProfile",
     data: function () {
         return {
+            affiliations: [],
             current_user: {},
             loading: true,
+            submitting: false
         }
     },
     methods: {
         loadInitialData: async function() {
+            this.affiliations = await Affiliation.get();
             this.current_user = await CurrentUser.first();
         },
+        getDirtyFields: function() {
+            // https://github.com/vuelidate/vuelidate/issues/646
+            let dirtyFieldsModel = {};
+            let model = this.$v.current_user;
+            const recurModel = (node,model)=>{
+                for (let field in node) {
+                    if (node.hasOwnProperty(field)) {
+                        //check if field is your model field and it changed
+                        if (typeof node[field].$model != 'undefined' && node[field].$dirty) {
+                            model[field] = node[field].$model;
+                        //check if field is your model field and it is object that has changed childs
+                        } else if (typeof node[field].$model != 'undefined' && node[field].$anyDirty && typeof node[field].$model == 'object'){
+                            model[field] = {};
+                            //recursive iterate through children of current object type field
+                            recurModel(node[field],model[field]);
+                        }
+                    }
+                }
+            }
+            recurModel(model,dirtyFieldsModel);
+            return dirtyFieldsModel
+        },
+        processUser: async function() {
+            this.submitting = true
+            this.$v.current_user.$touch()
+            if (!this.$v.current_user.$invalid) {
+                try {
+                    let dirty_user = this.getDirtyFields()
+                    dirty_user.id = this.current_user.id
+                    await (new User(dirty_user)).patch()
+                    this.submitting = false
+                } catch (error) {
+                    console.log(error)
+                    this.submitting = false
+                    let msg = 'Something went wrong processing your profile. '
+                    msg += 'Please try again, or contact Game Control if the issue persists.'
+                    await Swal.fire({
+                        title: 'Whoops!',
+                        text: msg,
+                        icon: 'error',
+                        timer: 5000,
+                        showCancelButton: false,
+                        showCloseButton: true
+                    })
+                    return
+                }
+
+                await Swal.fire({
+                    title: 'Success!',
+                    text: 'Your profile has been updated.',
+                    icon: 'success',
+                    timer: 4000,
+                    showCancelButton: false,
+                    showCloseButton: false
+                })
+            }
+            this.submitting = false
+        }
     },
     mounted: function() {
         this.loading = true
@@ -152,6 +231,33 @@ export default {
         },
         hasSignedWaiver: function() {
             return false
+        },
+        saveButtonClass: function() {
+            if (this.submitting) {
+                return 'btn btn-secondary'
+            } else {
+                return (this.$v.current_user.$invalid && this.$v.current_user.$anyDirty) ? 'btn btn-danger' : 'btn btn-primary'
+            }
+        },
+        saveButtonText: function() {
+            if (this.submitting) {
+                return `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`
+            } else {
+                return (this.$v.current_user.$invalid && this.$v.current_user.$anyDirty) ? 'Whoops! Please resolve all listed errors.' : 'Save User'
+            }
+        },
+    },
+    validations: {
+        current_user: {
+            first_name: { required },
+            last_name: { required },
+            alt_name: { required },
+            email: { required, email },
+            phone: { required, numeric },
+            affiliation_id: { required, numeric },
+            emergency_contact_name: { required },
+            emergency_contact_phone: { required, numeric },
+            emergency_contact_relationship: { required },
         }
     }
 }
