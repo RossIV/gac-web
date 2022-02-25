@@ -6,7 +6,7 @@
                 <div class="alert alert-primary" role="alert" v-if="loading">
                     <b>Loading...</b>
                 </div>
-                <div class="alert alert-primary" role="alert" v-if="actionRequired">
+                <div class="alert alert-primary" role="alert" v-if="!loading && actionRequired">
                     <h5>Additional Information Needed</h5>
                     <template v-if="!this.hasEmergencyContact">Please complete the Emergency Contact fields below.<br/></template>
                     <template v-if="!this.hasSignedWaiver">Please sign the participation waiver using the link below.<br/></template>
