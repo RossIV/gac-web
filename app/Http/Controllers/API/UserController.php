@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\PatchUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -65,13 +66,15 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
+     * @param  PatchUserRequest $request
+     * @param  User  $user
      * @return JsonResponse
      */
-    public function update(Request $request, User $user): JsonResponse
+    public function update(PatchUserRequest $request, User $user): JsonResponse
     {
-        return response()->json(['status' => 'error', 'error' => 'Not implemented'], 501);
+        $user->update($request->validated());
+        $user->refresh();
+        return response()->json(new UserResource($user));
     }
 
     /**
