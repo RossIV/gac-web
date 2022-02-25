@@ -39,7 +39,6 @@
     }
 
     body {
-        display: flex;
         align-items: center;
         padding-top: 40px;
         padding-bottom: 40px;
@@ -48,7 +47,7 @@
 
     .form-signin {
         width: 100%;
-        max-width: 330px;
+        max-width: 500px;
         padding: 15px;
         margin: auto;
     }
