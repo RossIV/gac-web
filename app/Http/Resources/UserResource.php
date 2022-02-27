@@ -39,7 +39,9 @@ class UserResource extends JsonResource
             'teams' => TeamResource::collection($this->whenLoaded('nativeTeams')),
             'ownedTeams' => TeamResource::collection($this->whenLoaded('ownedNativeTeams')),
             'currentTeam' => TeamResource::make($this->whenLoaded('currentTeam')),
-            'teamInvites' => $this->whenLoaded('invites')
+            'teamInvites' => $this->whenLoaded('invites'),
+            'signatures' => SignatureResource::collection($this->whenLoaded('signatures')),
+            'signaturesPending' => SignatureResource::collection($this->whenLoaded('signaturesPending')),
         ];
     }
 
