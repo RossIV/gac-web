@@ -52,6 +52,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $appends = [
+        'name'
+    ];
+
     /**
      * Returns combined first and last names as a single string
      *
