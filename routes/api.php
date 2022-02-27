@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AffiliationController;
+use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\EventController;
 use App\Http\Controllers\API\EventRegistrationController;
 use App\Http\Controllers\API\PaymentController;
@@ -8,7 +9,6 @@ use App\Http\Controllers\API\PaymentMethodController;
 use App\Http\Controllers\API\SignatureController;
 use App\Http\Controllers\API\TeamController;
 use App\Http\Controllers\API\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +21,10 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::name('auth.')->prefix('auth')->group(function() {
+    Route::post('login', [AuthController::class, 'login'])->name('login');
+    Route::post('register', [AuthController::class, 'register'])->name('register');
+});
 
 Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::resource('affiliations', AffiliationController::class);
