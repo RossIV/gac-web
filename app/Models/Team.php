@@ -53,6 +53,16 @@ class Team extends TeamworkTeam
     }
 
     /**
+     * Defines the relationship between Team and Event models through EventRegistration
+     *
+     * @return HasManyThrough
+     */
+    public function events(): HasManyThrough
+    {
+        return $this->hasManyThrough(Event::class, EventRegistration::class, 'team_id', 'id', 'id', 'event_id');
+    }
+
+    /**
      * Sets options for ActivityLog
      *
      * @return LogOptions
