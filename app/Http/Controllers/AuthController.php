@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Affiliation;
 use App\Models\LoginToken;
 use App\Models\User;
 use Carbon\Carbon;
@@ -17,7 +18,8 @@ class AuthController extends Controller
      */
     public function showLogin(): View
     {
-        return view('auth.login');
+        $affiliations = Affiliation::get();
+        return view('auth.login', ['affiliations' => $affiliations]);
     }
 
     /**
