@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\API\StoreEventRegistrationRequest;
 use App\Http\Requests\API\UpdateEventRegistrationRequest;
 use App\Models\EventRegistration;
+use App\Models\Signature;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -58,6 +59,20 @@ class EventRegistrationController extends Controller
 
         // Refresh registration after adding payment
         $registration = EventRegistration::with('payments',)->find($registration->id);
+
+        // Request signatures if required
+        if ($registration->event->participant_waiver_url) {
+            $users = $registration->team->users;
+            foreach ($users as $user) {
+                $signature = new Signature([
+                    'user_id' => $user->id,
+                    'event_registration_id' => $registration->id,
+                    'requested_at' => Carbon::now()
+                ]);
+                $signature->save();
+            }
+        }
+
         return response()->json($registration);
     }
 
