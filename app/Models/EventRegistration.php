@@ -31,6 +31,16 @@ class EventRegistration extends Model
     ];
 
     /**
+     * Define relationship between EventRegistration and Event models
+     *
+     * @return BelongsTo
+     */
+    public function event(): BelongsTo
+    {
+        return $this->belongsTo(Event::class);
+    }
+
+    /**
      * Defines the paymentDue attribute
      *
      * @return bool
