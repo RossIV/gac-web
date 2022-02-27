@@ -18,11 +18,14 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\CausesActivity;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
+use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
+use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 class User extends Authenticatable
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasApiTokens, HasFactory, Notifiable, UserHasTeams, MustVerifyEmail, HasRoles, CausesActivity, LogsActivity;
+    use HasRelationships;
 
     /**
      * The attributes that are not mass assignable.
@@ -57,6 +60,50 @@ class User extends Authenticatable
     public function getNameAttribute()
     {
         return "$this->first_name $this->last_name";
+    }
+
+    /**
+     * Defines relationship between User and EventRegistration model
+     *
+     * @return HasManyDeep
+     */
+    public function eventRegistrations(): HasManyDeep
+    {
+        return $this->hasManyDeep(
+            EventRegistration::class, ['team_user', Team::class],
+            ['user_id', 'id', 'team_id'], ['id', 'team_id', 'id']
+        );
+    }
+
+    /**
+     * Defines relationship between User and Event model
+     *
+     * @return HasManyDeep
+     */
+    public function events(): HasManyDeep
+    {
+        return $this->hasManyDeep(
+          Event::class, ['team_user', Team::class, EventRegistration::class],
+            ['user_id', 'id', 'team_id', 'id'], ['id', 'team_id', 'id', 'event_id']
+        );
+    }
+
+    /**
+     * Define relationship between User and Signature models
+     *
+     * @return HasMany
+     */
+    public function signatures(): HasMany
+    {
+        return $this->hasMany(Signature::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function signaturesPending(): HasMany
+    {
+        return $this->signatures()->pending();
     }
 
     /**
