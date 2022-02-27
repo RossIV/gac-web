@@ -57,7 +57,8 @@ class UserController extends Controller
                 'nativeTeams', 'nativeTeams.registrations',
                 'ownedNativeTeams', 'ownedNativeTeams.registrations',
                 'currentTeam', 'invites',
-                'affiliation'
+                'affiliation',
+                'signatures', 'signaturesPending'
             ])
             ->first();
         return response()->json(new UserResource($user));
