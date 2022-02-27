@@ -208,7 +208,8 @@
                                     <div class="form-text">
                                         Please provide the username/email/phone from which you want the payment to be requested.
                                     </div>
-                                    <input type="text" id="payment_notes" class="form-control" :required="paymentNotesRequired" v-model="registration.payment_notes" :class="{ 'is-invalid': $v.registration.payment_notes.$error }">
+                                    <input type="text" id="payment_notes" class="form-control" v-model="registration.payment_notes" :class="{ 'is-invalid': $v.registration.payment_notes.$error }">
+                                    <div class="invalid-feedback" v-if="!$v.registration.payment_notes.required">Payment Notes are required</div>
                                 </div>
                             </div>
                             <div class="row">
@@ -397,7 +398,7 @@ export default {
         paymentNotesRequired: function() {
             if (this.registration.payment_method_id) {
                 let method = this.paymentMethods.filter(obj => {return obj['id'] === this.registration.payment_method_id})[0]
-                return method.additional_info_required
+                return method.additional_info_required === 1
             } else {
                 return false
             }
@@ -437,7 +438,7 @@ export default {
     validations: {
         registration: {
             payment_method_id: { required },
-            payment_notes: { required: requiredIf('paymentNotesRequired')},
+            payment_notes: { required: requiredIf(function() { return this.paymentNotesRequired })},
             terms_agreed: { required, sameAs: sameAs( () => true ) }
         },
         team: {
