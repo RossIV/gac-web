@@ -81,6 +81,16 @@ class EventRegistration extends Model
     }
 
     /**
+     * Defines the relationship between the EventRegistration and User models for terms agreement
+     *
+     * @return BelongsTo
+     */
+    public function termsAgreedByUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'terms_agreed_by');
+    }
+
+    /**
      * Returns string representation of the model
      *
      * @return string
