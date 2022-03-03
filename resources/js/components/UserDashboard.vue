@@ -79,7 +79,8 @@ export default {
     methods: {
         loadInitialData: async function() {
             this.events = await Event.where('active_registration', '1').get();
-            this.current_user = await CurrentUser.with(['nativeTeams', 'nativeTeams.registrations']).first();
+            let userRelations = ['nativeTeams', 'nativeTeams.registrations', 'signaturesPending']
+            this.current_user = await CurrentUser.with(userRelations).first();
         },
     },
     mounted: function() {
@@ -108,7 +109,9 @@ export default {
                 && this.current_user.teams.filter(function(team) { return team.registrations.length > 0 })
         },
         hasOutstandingParticipantTasks: function() {
-            return true
+            return !this.current_user.profile_complete ||
+                (this.current_user.signaturesPending &&
+                this.current_user.signaturesPending.length > 0)
         },
         isMemberOfTeam: function() {
             return this.current_user.teams && this.current_user.teams.length > 0
