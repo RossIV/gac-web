@@ -114,7 +114,7 @@
                         </div>
                         <div class="row pt-3">
                             <div class="col-sm-12 col-md-4">
-                                <button type="button" class="btn btn-secondary">Sign Waiver</button>
+                                <a class="btn btn-secondary" role="button" target="_blank" :href="pendingSignatureURL">Sign Waiver</a>
                             </div>
                         </div>
                     </div>
@@ -152,7 +152,7 @@ export default {
     methods: {
         loadInitialData: async function() {
             this.affiliations = await Affiliation.get();
-            this.current_user = await CurrentUser.first();
+            this.current_user = await CurrentUser.with(['signatures', 'signaturesPending']).first();
         },
         getDirtyFields: function() {
             // https://github.com/vuelidate/vuelidate/issues/646
@@ -246,6 +246,13 @@ export default {
                 return (this.$v.current_user.$invalid && this.$v.current_user.$anyDirty) ? 'Whoops! Please resolve all listed errors.' : 'Save User'
             }
         },
+        pendingSignatureURL: function() {
+            if (this.current_user.signaturesPending && this.current_user.signaturesPending.length > 0) {
+                let base_url = this.current_user.signaturesPending[0].document_url
+                let email = this.current_user.email
+                return `${base_url}&email=${email}`
+            }
+        }
     },
     validations: {
         current_user: {
