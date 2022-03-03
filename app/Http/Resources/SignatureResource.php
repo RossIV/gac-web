@@ -28,6 +28,7 @@ class SignatureResource extends JsonResource
             'signed_at' => $this->signed_at,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'document_url' => $this->documentUrl,
             'user' => UserResource::make($this->whenLoaded('user')),
             'event_registration' => EventRegistrationResource::make($this->whenLoaded('eventRegistration'))
         ];
