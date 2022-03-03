@@ -242,6 +242,7 @@
 
 <script>
 import Affiliation from '../models/Affiliation'
+import CurrentUser from "../models/CurrentUser";
 import Event from '../models/Event'
 import EventRegistration from '../models/EventRegistration'
 import PaymentMethod from '../models/PaymentMethod'
@@ -277,6 +278,7 @@ export default {
                 phone: "",
                 affiliation_id: ""
             },
+            current_user: {},
             events: [],
             affiliations: [],
             paymentMethods: [],
@@ -335,6 +337,9 @@ export default {
             this.events = await Event.where('active_registration', '1').get();
             this.affiliations = await Affiliation.get();
             this.paymentMethods = await PaymentMethod.get();
+            this.current_user = await CurrentUser.first();
+            this.new_team_member = this.current_user
+            this.adding_team_member = true
         },
         submitRegistration: async function() {
             this.submitting = true
