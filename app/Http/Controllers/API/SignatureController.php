@@ -3,12 +3,23 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\SignatureCallbackRequest;
 use App\Http\Requests\API\StoreSignatureRequest;
 use App\Http\Requests\API\UpdateSignatureRequest;
 use App\Models\Signature;
+use Illuminate\Http\JsonResponse;
 
 class SignatureController extends Controller
 {
+    /**
+     * @param SignatureCallbackRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function callback(SignatureCallbackRequest $request): JsonResponse
+    {
+        return response()->json(['status' => 'success']);
+    }
+
     /**
      * Display a listing of the resource.
      *
