@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\SignatureRequest;
+use App\Models\EventRegistration;
+use App\Models\User;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -39,16 +41,24 @@ class SignatureCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('created_at');
-        CRUD::column('event_registration_id');
+
+        $this->crud->addColumn([
+            'type' => 'relationship',
+            'name' => 'user',
+            'label' => 'Signatory',
+            'attribute' => 'name',
+            'model' => User::class
+        ]);
+        $this->crud->addColumn([
+            'type' => 'relationship',
+            'name' => 'eventRegistration',
+            'label' => 'Event Registration',
+            'attribute' => 'name',
+            'model' => EventRegistration::class
+        ]);
         CRUD::column('requested_at');
-        CRUD::column('signed_electronically');
-        CRUD::column('signed_file_hash');
-        CRUD::column('signed_file_url');
-        CRUD::column('signing_log_file_hash');
-        CRUD::column('signing_log_url');
-        CRUD::column('state');
-        CRUD::column('updated_at');
+        CRUD::column('viewed_at');
+        CRUD::column('signed_at');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
