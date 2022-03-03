@@ -11,6 +11,10 @@
                     <template v-if="!this.hasEmergencyContact">Please complete the Emergency Contact fields below.<br/></template>
                     <template v-if="!this.hasSignedWaiver">Please sign the participation waiver using the link below.<br/></template>
                 </div>
+                <div class="alert alert-success" role="alert" v-if="!loading && !actionRequired">
+                    <h5>You're all set!</h5>
+                    We have everything needed from you at this time. See you soon!
+                </div>
             </div>
         </div>
         <div class="row pt-3" v-if="!loading">
