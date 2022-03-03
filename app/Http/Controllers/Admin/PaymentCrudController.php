@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\PaymentRequest;
+use App\Models\EventRegistration;
 use App\Models\PaymentMethod;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -40,16 +41,27 @@ class PaymentCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('amount');
-        CRUD::column('notes');
-        CRUD::column('payable_id');
-        CRUD::column('payable_type');
+        $this->crud->addColumn([
+            'type' => 'number',
+            'name' => 'amount',
+            'label' => 'Amount Paid',
+            'prefix' => '$',
+            'decimals' => 2
+        ]);
         $this->crud->addColumn([
             'type' => 'relationship',
             'name' => 'method',
             'label' => 'Payment Method',
             'attribute' => 'name',
             'model' => PaymentMethod::class
+        ]);
+        CRUD::column('notes');
+        $this->crud->addColumn([
+            'type' => 'relationship',
+            'name' => 'payable',
+            'label' => 'Payable',
+            'attribute' => 'name',
+            'model' => EventRegistration::class
         ]);
 
         /**
@@ -71,8 +83,13 @@ class PaymentCrudController extends CrudController
 
         CRUD::field('amount');
         CRUD::field('notes');
-        CRUD::field('payable_id');
-        CRUD::field('payable_type');
+        $this->crud->addField([
+            'type' => 'relationship',
+            'name' => 'payable',
+            'label' => 'Payable',
+            'attribute' => 'name',
+            'model' => EventRegistration::class
+        ]);
         $this->crud->addField([
             'type' => 'relationship',
             'name' => 'method',
