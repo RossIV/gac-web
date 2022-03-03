@@ -64,6 +64,7 @@ class PaymentMethodCrudController extends CrudController
         CRUD::field('fee');
         CRUD::field('instructions');
         CRUD::field('is_active');
+        CRUD::field('additional_info_required');
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
