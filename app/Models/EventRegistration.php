@@ -27,7 +27,7 @@ class EventRegistration extends Model
      * @var array<string>
      */
     protected $appends = [
-        'paymentDue'
+        'paymentDue', 'name'
     ];
 
     /**
@@ -87,7 +87,9 @@ class EventRegistration extends Model
      */
     public function getNameAttribute()
     {
-        return "Registration #$this->id";
+        $team_name = $this->team->name;
+        $event_name = $this->event->name;
+        return "$team_name Registration for $event_name";
     }
 
     /**
