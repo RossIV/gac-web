@@ -44,12 +44,18 @@ class TeamCrudController extends CrudController
         CRUD::column('name');
         CRUD::column('motto');
         $this->crud->addColumn([
+            'type' => 'relationship',
+            'name' => 'owner',
+            'label' => 'Leader',
+            'attribute' => 'name',
+            'model' => User::class
+        ]);
+        $this->crud->addColumn([
             'name' => 'accept_additional_members',
             'label' => 'Accept Additional Members',
             'type' => 'boolean',
             'options' => [0 => 'No', 1 => 'Yes']
         ]);
-        CRUD::column('owner_id');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -71,7 +77,13 @@ class TeamCrudController extends CrudController
         CRUD::field('name');
         CRUD::field('motto');
         CRUD::field('accept_additional_members');
-        CRUD::field('owner_id');
+        $this->crud->addField([
+            'type' => 'relationship',
+            'name' => 'owner',
+            'label' => 'Leader',
+            'attribute' => 'name',
+            'model' => User::class
+        ]);
         $this->crud->addField([
             'type' => 'relationship',
             'name' => 'users',
@@ -124,7 +136,7 @@ class TeamCrudController extends CrudController
         $this->crud->addColumn([
             'type' => 'relationship',
             'name' => 'owner',
-            'label' => 'Owner',
+            'label' => 'Leader',
             'attribute' => 'name',
             'model' => User::class
         ]);
