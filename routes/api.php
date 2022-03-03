@@ -26,6 +26,8 @@ Route::name('auth.')->prefix('auth')->group(function() {
     Route::post('register', [AuthController::class, 'register'])->name('register');
 });
 
+Route::post('signatures/callback', [SignatureController::class, 'callback']);
+
 Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::resource('affiliations', AffiliationController::class);
     Route::resource('events', EventController::class);
