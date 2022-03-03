@@ -36,6 +36,7 @@ class UserResource extends JsonResource
             'affiliation_id' => $this->affiliation_id,
             'affiliation' => AffiliationResource::make($this->whenLoaded('affiliation')),
             'activities' => $this->whenLoaded('activities'),
+            'profile_complete' => $this->profileComplete,
             'teams' => TeamResource::collection($this->whenLoaded('nativeTeams')),
             'ownedTeams' => TeamResource::collection($this->whenLoaded('ownedNativeTeams')),
             'currentTeam' => TeamResource::make($this->whenLoaded('currentTeam')),

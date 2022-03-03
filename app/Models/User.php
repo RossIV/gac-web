@@ -53,7 +53,7 @@ class User extends Authenticatable
     ];
 
     protected $appends = [
-        'name'
+        'name', 'profileComplete'
     ];
 
     /**
@@ -64,6 +64,21 @@ class User extends Authenticatable
     public function getNameAttribute()
     {
         return "$this->first_name $this->last_name";
+    }
+
+    public function getProfileCompleteAttribute()
+    {
+        return (
+          !empty($this->emergency_contact_name) &&
+          !empty($this->emergency_contact_phone) &&
+          !empty($this->emergency_contact_relationship) &&
+          !empty($this->first_name) &&
+          !empty($this->last_name) &&
+          !empty($this->phone) &&
+          !empty($this->email) &&
+          !empty($this->alt_name) &&
+          !empty($this->affiliation_id)
+        );
     }
 
     /**
