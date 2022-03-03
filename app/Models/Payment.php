@@ -24,6 +24,25 @@ class Payment extends Model
     protected $guarded = ['id'];
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array<string>
+     */
+    protected $appends = [
+        'name'
+    ];
+
+    /**
+     * Returns string representation of the model
+     *
+     * @return string
+     */
+    public function getNameAttribute()
+    {
+        return "Payment #$this->id";
+    }
+
+    /**
      * @return Builder
      */
     public function scopeUnpaid(): Builder
