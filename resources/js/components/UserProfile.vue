@@ -108,17 +108,22 @@
                         <div class="row">
                             <p class="card-text">
                                 In order to participate in any event, all participants must sign a participation waiver.
-                                Our records indicate that you <b>have not</b> yet signed a waiver.
-                                Please click the button below to sign.
+                                <template v-if="!hasSignedWaiver">
+                                    Our records indicate that you <b>have not</b> yet signed a waiver.
+                                    Please click the button below to sign.
+                                </template>
+                                <template v-else>
+                                    Our records indicate that you <b>have</b> signed a waiver. Thank you!
+                                </template>
                             </p>
                         </div>
-                        <div class="row pt-3">
+                        <div class="row pt-3" v-if="!hasSignedWaiver">
                             <div class="col-sm-12 col-md-4">
                                 <a class="btn btn-secondary" role="button" target="_blank" :href="pendingSignatureURL">Sign Waiver</a>
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer text-muted">
+                    <div class="card-footer text-muted" v-if="!hasSignedWaiver">
                         It may take several minutes after signing for the correct status to reflect here.
                         If you have signed the waiver and after 30 minutes are still seeing this message, please contact Game Control.
                     </div>
@@ -230,7 +235,9 @@ export default {
             )
         },
         hasSignedWaiver: function() {
-            return false
+            return this.current_user
+                && this.current_user.hasOwnProperty('signaturesPending')
+                && this.current_user.signaturesPending.length === 0
         },
         saveButtonClass: function() {
             if (this.submitting) {
