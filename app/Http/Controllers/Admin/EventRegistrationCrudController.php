@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\EventRegistrationRequest;
+use App\Models\Payment;
+use App\Models\User;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -41,7 +43,13 @@ class EventRegistrationCrudController extends CrudController
     {
         CRUD::column('event_id');
         CRUD::column('team_id');
-        CRUD::column('user_id');
+        $this->crud->addColumn([
+            'type' => 'relationship',
+            'name' => 'user',
+            'label' => 'Team Leader',
+            'attribute' => 'name',
+            'model' => User::class
+        ]);
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -97,12 +105,30 @@ class EventRegistrationCrudController extends CrudController
 
         CRUD::column('event_id');
         CRUD::column('team_id');
-        CRUD::column('user_id');
+        $this->crud->addColumn([
+            'type' => 'relationship',
+            'name' => 'user',
+            'label' => 'Team Leader',
+            'attribute' => 'name',
+            'model' => User::class
+        ]);
         CRUD::column('terms_agreed_at');
-        CRUD::column('terms_agreed_by');
+        $this->crud->addColumn([
+            'type' => 'relationship',
+            'name' => 'termsAgreedByUser',
+            'label' => 'Terms Agreed By',
+            'attribute' => 'name',
+            'model' => User::class
+        ]);
         CRUD::column('external_notes');
         CRUD::column('internal_notes');
-        CRUD::column('payments');
+        $this->crud->addColumn([
+            'type' => 'relationship',
+            'name' => 'payments',
+            'label' => 'Payments',
+            'attribute' => 'name',
+            'model' => Payment::class
+        ]);
         CRUD::column('created_at');
         CRUD::column('updated_at');
         CRUD::column('deleted_at');
