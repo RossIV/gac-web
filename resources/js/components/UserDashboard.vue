@@ -47,6 +47,19 @@
                     </div>
                 </div>
             </div>
+            <div class="col-sm-12 col-md-4" v-if="teamsWithRegistration">
+                <div class="card">
+                    <div class="card-header">Participant Action Recommended</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Download ClueKeeper</h5>
+                        <p class="card-text">
+                            ClueKeeper is the app that we use to navigate you and your team throughout the day from clue site to clue site.
+                            We strongly encourage downloading it in advance for easier use on game day.
+                        </p>
+                        <a href="https://cluekeeper.com/app" class="btn btn-primary" target="_blank">Download Now</a>
+                    </div>
+                </div>
+            </div>
             <div class="col-sm-12 col-md-4" v-if="!teamsWithRegistration && events && events.length > 0">
                 <div class="card">
                     <div class="card-header">Upcoming Events</div>
