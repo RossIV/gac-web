@@ -19,6 +19,8 @@ class PaymentMethodResource extends JsonResource
             'name' => $this->name,
             'instructions' => $this->instructions,
             'is_active' => $this->is_active,
+            'additional_info_required' => $this->additional_info_required,
+            'additional_info_instructions' => $this->additional_info_instructions,
             'fee' => $this->fee,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

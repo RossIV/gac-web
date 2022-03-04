@@ -206,7 +206,7 @@
                                 <div class="mb-3 col-sm-12 col-md-6">
                                     <label for="payment_notes" class="form-label mb-0">Payment Notes</label>
                                     <div class="form-text">
-                                        Please provide the username/email/phone from which you want the payment to be requested.
+                                        {{ paymentNotesInstructions }}
                                     </div>
                                     <input type="text" id="payment_notes" class="form-control" v-model="registration.payment_notes" :class="{ 'is-invalid': $v.registration.payment_notes.$error }">
                                     <div class="invalid-feedback" v-if="!$v.registration.payment_notes.required">Payment Notes are required</div>
@@ -412,6 +412,14 @@ export default {
                 let method = this.paymentMethods.filter(obj => {return obj['id'] === this.registration.payment_method_id})[0]
                 let fee = (method.fee !== 0) ? ` ($${method.fee} Fee Applies)` : ''
                 return method.instructions + fee
+            } else {
+                return ''
+            }
+        },
+        paymentNotesInstructions: function() {
+            if (this.registration.payment_method_id) {
+                let method = this.paymentMethods.filter(obj => {return obj['id'] === this.registration.payment_method_id})[0]
+                return method.additional_info_instructions
             } else {
                 return ''
             }
