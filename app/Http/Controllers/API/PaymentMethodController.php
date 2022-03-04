@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\StorePaymentMethodRequest;
 use App\Http\Requests\API\UpdatePaymentMethodRequest;
+use App\Http\Resources\PaymentMethodResource;
 use App\Models\PaymentMethod;
 use Illuminate\Http\JsonResponse;
 
@@ -19,7 +20,7 @@ class PaymentMethodController extends Controller
     {
         $paymentMethods = PaymentMethod::orderBy('name')->get();
 
-        return response()->json($paymentMethods);
+        return response()->json(PaymentMethodResource::collection($paymentMethods));
     }
 
     /**
