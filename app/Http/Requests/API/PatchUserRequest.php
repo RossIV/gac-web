@@ -15,7 +15,7 @@ class PatchUserRequest extends FormRequest
     public function authorize()
     {
         return (
-            Auth::user()->hasRole('super-admin') ||
+            Auth::user()->hasRole('admin') ||
             Auth::user()->id == $this->route('user')->id
         );
     }

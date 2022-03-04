@@ -16,7 +16,7 @@ class StoreEventRegistrationRequest extends FormRequest
     public function authorize(Request $request)
     {
         return (
-            Auth::user()->hasRole('super-admin') ||
+            Auth::user()->hasRole('admin') ||
             Auth::user()->isOwnerOfTeam($request->input('team_id'))
         );
     }
