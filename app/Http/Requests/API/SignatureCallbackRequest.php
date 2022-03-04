@@ -25,7 +25,8 @@ class SignatureCallbackRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'document' => 'required',
+            'event_type' => 'required',
         ];
     }
 }
