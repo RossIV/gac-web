@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\API;
 
+use App\Models\Team;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class UpdateTeamRequest extends FormRequest
@@ -14,7 +16,10 @@ class UpdateTeamRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return (
+            Auth::user()->hasRole('admin') ||
+            Auth::user()->isOwnerOfTeam($this->route('team'))
+        );
     }
 
     /**
