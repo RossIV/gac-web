@@ -22,6 +22,7 @@ window.Vue = require('vue').default;
 Vue.component('team-registration', require('./components/TeamRegistration.vue').default);
 Vue.component('user-dashboard', require('./components/UserDashboard.vue').default);
 Vue.component('user-profile', require('./components/UserProfile.vue').default);
+Vue.component('my-team', require('./components/MyTeam.vue').default);
 Vue.component('login', require('./components/Login.vue').default);
 
 /**
