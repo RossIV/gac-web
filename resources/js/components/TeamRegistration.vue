@@ -188,7 +188,7 @@
                                 <div class="mb-3 col-sm-12 col-md-6">
                                     <label for="payment_method" class="form-label mb-0">Payment Method</label>
                                     <div class="form-text">
-                                        <b>Amount Due:</b> $40 ($10 discount for including a R.A.T.!)
+                                        <b>Amount Due:</b> {{ amountDue }} {{ amountDueNotes }}
                                     </div>
                                     <select class="form-select" name="payment_method" id="payment_method" required v-model="registration.payment_method_id" :class="{ 'is-invalid': $v.registration.payment_method_id.$error }">
                                         <option disabled selected>Select One</option>
@@ -451,6 +451,24 @@ export default {
                 this.current_user.hasOwnProperty('eventRegistrations') &&
                 this.current_user.eventRegistrations.length > 0
             )
+        },
+        hasRAT: function() {
+            let rat_affiliation = this.affiliations.filter(affiliation => {
+                return affiliation.name.includes('R.A.T.')
+            })[0]
+            console.log(rat_affiliation)
+            let rat_members = this.team.members.filter(member => {
+                return member.affiliation_id === rat_affiliation.id
+            })
+            console.log(rat_members)
+            return rat_members.length > 0
+        },
+        amountDue: function() {
+            let eventCost = this.events[0].cost
+            return (this.hasRAT) ? `$${eventCost-10}` : `$${eventCost}`
+        },
+        amountDueNotes: function() {
+            return (this.hasRAT) ? '($10 discount for including a R.A.T.!)': ''
         }
     },
     validations: {
