@@ -26,6 +26,10 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/profile', function () {
         return view('profile');
     })->name('profile');
+
+    Route::get('/403', function() {
+        return view('errors.403');
+    })->name('forbidden');
 });
 
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
