@@ -346,6 +346,9 @@ export default {
                     let team = await (new Team(this.team)).save()
                     this.registration.event_id = this.events[0].id
                     this.registration.team_id = team.id
+                    if (this.registration.payment_notes.length === 0) {
+                        delete this.registration.payment_notes;
+                    }
                     let registration = await (new EventRegistration(this.registration)).save()
                 } catch (error) {
                     console.log(error)
