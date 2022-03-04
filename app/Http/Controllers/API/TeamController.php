@@ -55,9 +55,6 @@ class TeamController extends Controller
             'owner_id' => $owner_id
         ]);
 
-        // Attach owner to the team
-        $owner->teams()->attach($team->id);
-
         // Handle adding team members in the same request, if present
         // Create (or use existing) user and attach them to the team
         if ($request->has('members')) {
