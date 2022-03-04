@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use App\Models\EventRegistration;
+use App\Events\TeamRegistered;
+use App\Listeners\SendTeamRegistrationNotifications;
 use App\Models\Payment;
-use App\Observers\EventRegistrationObserver;
 use App\Observers\PaymentObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -22,6 +22,9 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        TeamRegistered::class => [
+            SendTeamRegistrationNotifications::class
+        ]
     ];
 
     /**
@@ -32,6 +35,5 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         Payment::observe(PaymentObserver::class);
-        EventRegistration::observe(EventRegistrationObserver::class);
     }
 }

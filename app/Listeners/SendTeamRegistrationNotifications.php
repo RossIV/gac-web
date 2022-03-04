@@ -1,23 +1,39 @@
 <?php
 
-namespace App\Observers;
+namespace App\Listeners;
 
+use App\Events\TeamRegistered;
 use App\Mail\TeamRegistrationConfirmation;
 use App\Mail\TeamRegistrationParticipant;
 use App\Models\EventRegistration;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
-class EventRegistrationObserver
+class SendTeamRegistrationNotifications implements ShouldQueue
 {
+
     /**
-     * Handle the EventRegistration "created" event.
+     * Create the event listener.
      *
-     * @param  \App\Models\EventRegistration  $eventRegistration
      * @return void
      */
-    public function created(EventRegistration $eventRegistration)
+    public function __construct()
     {
+       //
+    }
+
+    /**
+     * Handle the event.
+     *
+     * @param  TeamRegistered  $event
+     * @return void
+     */
+    public function handle(TeamRegistered $event)
+    {
+        $eventRegistration = $event->eventRegistration;
+
         $team = $eventRegistration->team;
         $teamLeader = $team->owner;
         $teamMembers = $team->users;
@@ -41,49 +57,5 @@ class EventRegistrationObserver
                 ->bcc(config('app.admin_email'))
                 ->send(new TeamRegistrationParticipant($notifiable, $team, $eventName, $teamLeader));
         }
-    }
-
-    /**
-     * Handle the EventRegistration "updated" event.
-     *
-     * @param  \App\Models\EventRegistration  $eventRegistration
-     * @return void
-     */
-    public function updated(EventRegistration $eventRegistration)
-    {
-        //
-    }
-
-    /**
-     * Handle the EventRegistration "deleted" event.
-     *
-     * @param  \App\Models\EventRegistration  $eventRegistration
-     * @return void
-     */
-    public function deleted(EventRegistration $eventRegistration)
-    {
-        //
-    }
-
-    /**
-     * Handle the EventRegistration "restored" event.
-     *
-     * @param  \App\Models\EventRegistration  $eventRegistration
-     * @return void
-     */
-    public function restored(EventRegistration $eventRegistration)
-    {
-        //
-    }
-
-    /**
-     * Handle the EventRegistration "force deleted" event.
-     *
-     * @param  \App\Models\EventRegistration  $eventRegistration
-     * @return void
-     */
-    public function forceDeleted(EventRegistration $eventRegistration)
-    {
-        //
     }
 }

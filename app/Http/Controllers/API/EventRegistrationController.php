@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Events\TeamRegistered;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\StoreEventRegistrationRequest;
 use App\Http\Requests\API\UpdateEventRegistrationRequest;
@@ -58,7 +59,7 @@ class EventRegistrationController extends Controller
         }
 
         // Refresh registration after adding payment
-        $registration = EventRegistration::with('payments',)->find($registration->id);
+        $registration = EventRegistration::with('payments')->find($registration->id);
 
         // Request signatures if required
         if ($registration->event->participant_waiver_url) {
@@ -72,6 +73,8 @@ class EventRegistrationController extends Controller
                 $signature->save();
             }
         }
+
+        TeamRegistered::dispatch($registration);
 
         return response()->json($registration);
     }
