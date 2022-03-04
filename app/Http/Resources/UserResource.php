@@ -43,6 +43,7 @@ class UserResource extends JsonResource
             'teamInvites' => $this->whenLoaded('invites'),
             'signatures' => SignatureResource::collection($this->whenLoaded('signatures')),
             'signaturesPending' => SignatureResource::collection($this->whenLoaded('signaturesPending')),
+            'eventRegistrations' => EventRegistrationResource::collection($this->whenLoaded('eventRegistrations'))
         ];
     }
 
