@@ -26,10 +26,6 @@
                         <li>Electronically sign a participant liability waiver</li>
                         <li>Attest that they have been vaccinated against COVID-19</li>
                     </ol>
-                    The member submitting this form will also receive an email with some additional action items:
-                    <ol>
-                        <li>Pay the registration fee for the team</li>
-                    </ol>
                 </div>
             </div>
             <div class="row pt-3">
