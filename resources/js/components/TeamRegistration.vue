@@ -282,7 +282,6 @@ export default {
             events: [],
             affiliations: [],
             paymentMethods: [],
-            hasRegistration: false,
             loading: true,
             submitting: false,
             submitStatus: ''
@@ -337,7 +336,7 @@ export default {
             this.events = await Event.where('active_registration', '1').get();
             this.affiliations = await Affiliation.get();
             this.paymentMethods = await PaymentMethod.get();
-            this.current_user = await CurrentUser.first();
+            this.current_user = await CurrentUser.with('eventRegistrations').first();
             this.new_team_member = this.current_user
             this.adding_team_member = true
         },
@@ -438,6 +437,12 @@ export default {
             let relative = formatRelative(Date.parse(this.events[0].registration_ends_at), new Date())
             let formatted = format(Date.parse(this.events[0].registration_ends_at), "PPPP p")
             return (relative.includes('at')) ? relative : formatted
+        },
+        hasRegistration: function() {
+            return (
+                this.current_user.hasOwnProperty('eventRegistrations') &&
+                this.current_user.eventRegistrations.length > 0
+            )
         }
     },
     validations: {
