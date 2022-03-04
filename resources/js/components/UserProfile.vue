@@ -104,7 +104,7 @@
                 </div>
             </div>
         </div>
-        <div class="row pt-3" v-if="!loading">
+        <div class="row pt-3" v-if="!loading && hasEventRegistration">
             <div class="col-12">
                 <div class="card">
                     <h5 class="card-header">Participation Waiver</h5>
@@ -161,7 +161,8 @@ export default {
     methods: {
         loadInitialData: async function() {
             this.affiliations = await Affiliation.get();
-            this.current_user = await CurrentUser.with(['signatures', 'signaturesPending']).first();
+            let relationships = ['eventRegistrations', 'signatures', 'signaturesPending']
+            this.current_user = await CurrentUser.with(relationships).first();
         },
         getDirtyFields: function() {
             // https://github.com/vuelidate/vuelidate/issues/646
@@ -237,6 +238,11 @@ export default {
                 this.current_user.emergency_contact_phone &&
                 this.current_user.emergency_contact_relationship
             )
+        },
+        hasEventRegistration: function() {
+            return this.current_user
+                && this.current_user.hasOwnProperty('eventRegistrations')
+                && this.current_user.eventRegistrations.length > 0
         },
         hasSignedWaiver: function() {
             return this.current_user
