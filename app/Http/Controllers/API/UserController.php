@@ -54,7 +54,7 @@ class UserController extends Controller
         $user = QueryBuilder::for(User::class)
             ->where('id', $request->user()->id)
             ->allowedIncludes([
-                'nativeTeams', 'nativeTeams.registrations',
+                'nativeTeams', 'nativeTeams.registrations', 'nativeTeams.users',
                 'ownedNativeTeams', 'ownedNativeTeams.registrations',
                 'currentTeam', 'invites',
                 'affiliation',
