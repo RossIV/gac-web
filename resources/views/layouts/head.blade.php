@@ -7,7 +7,9 @@
         <li><a href="/" class="nav-link px-2 link-secondary">Home</a></li>
         <li><a href="/my-team" class="nav-link px-2 link-dark">My Team</a></li>
         <li><a href="/team-registration" class="nav-link px-2 link-dark">Team Registration</a></li>
+        @if(Auth::check() && Auth::user()->can('access-admin-panel'))
         <li><a href="/admin" class="nav-link px-2 link-dark">Admin</a></li>
+        @endif
     </ul>
 
     <div class="col-md-3 text-end">
