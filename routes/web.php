@@ -23,6 +23,10 @@ Route::group(['middleware' => ['auth']], function() {
         return view('team-registration');
     })->name('team-registration');
 
+    Route::get('/my-team', function () {
+        return view('my-team');
+    })->name('my-team');
+
     Route::get('/profile', function () {
         return view('profile');
     })->name('profile');
