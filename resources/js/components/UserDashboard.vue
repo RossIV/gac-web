@@ -28,7 +28,7 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ team.name }}</h5>
                             <p class="card-text">
-                                You are a member of this team, along with {{ team.invitedUsersCount + team.usersCount }} others.
+                                {{ teamMemberCountSentence(team) }}
                             </p>
                             <a href="/my-team" class="btn btn-primary">View My Team</a>
                         </div>
@@ -82,6 +82,16 @@ export default {
             let userRelations = ['nativeTeams', 'nativeTeams.registrations', 'signaturesPending']
             this.current_user = await CurrentUser.with(userRelations).first();
         },
+        teamMemberCountSentence: function(team) {
+            let adjustedCount = team.usersCount - 1
+            if (adjustedCount === 0) {
+                return 'You are the only member of this team.'
+            } else if (adjustedCount === 1) {
+                return 'You are a member of this team, along with one other person.'
+            } else {
+                return `You are a member of this team, along with ${adjustedCount} other people.`
+            }
+        }
     },
     mounted: function() {
         this.loading = true
