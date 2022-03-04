@@ -5,7 +5,9 @@
 
     <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
         <li><a href="/" class="nav-link px-2 link-secondary">Home</a></li>
+        @if(count(Auth::user()->teams) > 0)
         <li><a href="/my-team" class="nav-link px-2 link-dark">My Team</a></li>
+        @endif
         <li><a href="/team-registration" class="nav-link px-2 link-dark">Team Registration</a></li>
         @if(Auth::check() && Auth::user()->can('access-admin-panel'))
         <li><a href="/admin" class="nav-link px-2 link-dark">Admin</a></li>
