@@ -59,7 +59,7 @@ class TeamController extends Controller
         // Create (or use existing) user and attach them to the team
         if ($request->has('members')) {
             foreach ($request->input('members') as $member) {
-                $user = User::firstOrCreate(
+                $user = User::updateOrCreate(
                   [ 'email' => $member['email'] ],
                   [
                       'first_name' => $member['first_name'],
