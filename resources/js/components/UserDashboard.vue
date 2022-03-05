@@ -79,6 +79,7 @@
 import Event from "../models/Event";
 import CurrentUser from "../models/CurrentUser";
 import {format, formatRelative} from "date-fns";
+import Swal from "sweetalert2";
 
 export default {
     name: "UserDashboard",
@@ -91,9 +92,22 @@ export default {
     },
     methods: {
         loadInitialData: async function() {
-            this.events = await Event.where('active_registration', '1').get();
-            let userRelations = ['nativeTeams', 'nativeTeams.registrations', 'signaturesPending']
-            this.current_user = await CurrentUser.with(userRelations).first();
+            try {
+                this.events = await Event.where('active_registration', '1').get();
+                let userRelations = ['nativeTeams', 'nativeTeams.registrations', 'signaturesPending']
+                this.current_user = await CurrentUser.with(userRelations).first();
+            } catch (error) {
+                Sentry.captureException(error);
+                let msg = 'Something went wrong while loading data. '
+                msg += 'Please try again, or contact Game Control if the issue persists.'
+                Swal.fire({
+                    title: 'Whoops!',
+                    text: msg,
+                    icon: 'error',
+                    showCancelButton: false,
+                    showCloseButton: true
+                })
+            }
         },
         teamMemberCountSentence: function(team) {
             let adjustedCount = team.usersCount - 1

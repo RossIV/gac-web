@@ -351,7 +351,7 @@ export default {
                     }
                     let registration = await (new EventRegistration(this.registration)).save()
                 } catch (error) {
-                    console.log(error)
+                    Sentry.captureException(error);
                     this.submitting = false
                     this.submitStatus = 'error'
                     let msg = 'Something went wrong processing your registration. '

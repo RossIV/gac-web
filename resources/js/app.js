@@ -37,6 +37,22 @@ Model.$http = axios
 import Vuelidate from 'vuelidate'
 Vue.use(Vuelidate)
 
+import * as Sentry from "@sentry/vue";
+import { BrowserTracing } from "@sentry/tracing";
+Sentry.init({
+    Vue,
+    dsn: "https://65e3aaba48f94469bef27a162846da1a@o1159398.ingest.sentry.io/6243219",
+    integrations: [
+        new BrowserTracing({
+            tracingOrigins: ["localhost", "app.getaclue.tech", /^\//],
+        }),
+    ],
+    // Set tracesSampleRate to 1.0 to capture 100%
+    // of transactions for performance monitoring.
+    // We recommend adjusting this value in production
+    tracesSampleRate: 1.0,
+});
+
 const app = new Vue({
     el: '#app',
 });

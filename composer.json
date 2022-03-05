@@ -16,6 +16,7 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
         "mpociot/teamwork": "^6.1",
+        "sentry/sentry-laravel": "^2.11",
         "spatie/laravel-activitylog": "^4.3",
         "spatie/laravel-permission": "^5.4",
         "spatie/laravel-query-builder": "^4.0.2",

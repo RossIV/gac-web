@@ -58,6 +58,7 @@ import Event from "../models/Event";
 import Affiliation from "../models/Affiliation";
 import PaymentMethod from "../models/PaymentMethod";
 import CurrentUser from "../models/CurrentUser";
+import Swal from "sweetalert2";
 
 export default {
     name: "MyTeam",
@@ -71,10 +72,23 @@ export default {
     },
     methods: {
         loadInitialData: async function() {
-            this.events = await Event.where('active_registration', '1').get();
-            this.affiliations = await Affiliation.get();
-            let relationships = ['eventRegistrations', 'nativeTeams', 'nativeTeams.users']
-            this.current_user = await CurrentUser.with(relationships).first();
+            try {
+                this.events = await Event.where('active_registration', '1').get();
+                this.affiliations = await Affiliation.get();
+                let relationships = ['eventRegistrations', 'nativeTeams', 'nativeTeams.users']
+                this.current_user = await CurrentUser.with(relationships).first();
+            } catch (error) {
+                Sentry.captureException(error);
+                let msg = 'Something went wrong while loading data. '
+                msg += 'Please try again, or contact Game Control if the issue persists.'
+                Swal.fire({
+                    title: 'Whoops!',
+                    text: msg,
+                    icon: 'error',
+                    showCancelButton: false,
+                    showCloseButton: true
+                })
+            }
         },
         affiliationName: function(id) {
             let affil = this.affiliations.filter(obj => {return obj['id'] === id})[0]

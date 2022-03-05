@@ -164,6 +164,8 @@ export default {
                 console.log('Unknown Error', error.message)
             }
 
+            Sentry.captureException(error);
+
             if (msg.length === 0) {
                 msg = 'Something went wrong processing your request. '
                 msg += 'Please try again, or contact Game Control if the issue persists.'

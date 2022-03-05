@@ -160,9 +160,22 @@ export default {
     },
     methods: {
         loadInitialData: async function() {
-            this.affiliations = await Affiliation.get();
-            let relationships = ['eventRegistrations', 'signatures', 'signaturesPending']
-            this.current_user = await CurrentUser.with(relationships).first();
+            try {
+                this.affiliations = await Affiliation.get();
+                let relationships = ['eventRegistrations', 'signatures', 'signaturesPending']
+                this.current_user = await CurrentUser.with(relationships).first();
+            } catch(error) {
+                Sentry.captureException(error);
+                let msg = 'Something went wrong while loading data. '
+                msg += 'Please try again, or contact Game Control if the issue persists.'
+                Swal.fire({
+                    title: 'Whoops!',
+                    text: msg,
+                    icon: 'error',
+                    showCancelButton: false,
+                    showCloseButton: true
+                })
+            }
         },
         getDirtyFields: function() {
             // https://github.com/vuelidate/vuelidate/issues/646
@@ -196,7 +209,7 @@ export default {
                     await (new User(dirty_user)).patch()
                     this.submitting = false
                 } catch (error) {
-                    console.log(error)
+                    Sentry.captureException(error);
                     this.submitting = false
                     let msg = 'Something went wrong processing your profile. '
                     msg += 'Please try again, or contact Game Control if the issue persists.'
