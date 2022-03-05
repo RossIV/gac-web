@@ -147,6 +147,7 @@ import CurrentUser from "../models/CurrentUser";
 import User from "../models/User";
 import { required, email, numeric } from 'vuelidate/lib/validators'
 import Swal from 'sweetalert2'
+import * as Sentry from "@sentry/vue";
 
 export default {
     name: "UserProfile",

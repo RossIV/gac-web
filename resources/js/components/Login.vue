@@ -70,6 +70,7 @@
 <script>
 import Swal from 'sweetalert2'
 import {required, email, numeric, requiredIf} from 'vuelidate/lib/validators'
+import * as Sentry from "@sentry/vue";
 
 export default {
     name: "Login",

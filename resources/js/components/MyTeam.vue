@@ -59,6 +59,7 @@ import Affiliation from "../models/Affiliation";
 import PaymentMethod from "../models/PaymentMethod";
 import CurrentUser from "../models/CurrentUser";
 import Swal from "sweetalert2";
+import * as Sentry from "@sentry/vue";
 
 export default {
     name: "MyTeam",

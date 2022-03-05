@@ -246,6 +246,7 @@ import Team from '../models/Team'
 import { required, requiredIf, email, numeric, sameAs, minLength } from 'vuelidate/lib/validators'
 import Swal from 'sweetalert2'
 import { format, formatRelative } from 'date-fns'
+import * as Sentry from "@sentry/vue";
 
 export default {
     name: "TeamRegistration",

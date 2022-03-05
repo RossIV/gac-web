@@ -80,6 +80,7 @@ import Event from "../models/Event";
 import CurrentUser from "../models/CurrentUser";
 import {format, formatRelative} from "date-fns";
 import Swal from "sweetalert2";
+import * as Sentry from "@sentry/vue";
 
 export default {
     name: "UserDashboard",
