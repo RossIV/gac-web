@@ -341,6 +341,7 @@ export default {
             this.submitting = true
             this.$v.team.$touch()
             this.$v.registration.$touch()
+            let msg = ''
 
             if (!this.$v.team.$invalid && !this.$v.registration.$invalid) {
                 try {
@@ -353,10 +354,25 @@ export default {
                     let registration = await (new EventRegistration(this.registration)).save()
                 } catch (error) {
                     Sentry.captureException(error);
+
+                    if (error.response) {
+                        if (error.response.status === 422) {
+                            if (error.response.data.errors) {
+                                let errors = []
+                                for (const [key, value] of Object.entries(error.response.data.errors)) {
+                                    errors.push(value[0])
+                                }
+                                msg = errors.join('\n')
+                            }
+                        }
+                    }
                     this.submitting = false
                     this.submitStatus = 'error'
-                    let msg = 'Something went wrong processing your registration. '
-                    msg += 'Please try again, or contact Game Control if the issue persists.'
+
+                    if (msg.length === 0) {
+                        msg = 'Something went wrong processing your registration. '
+                        msg += 'Please try again, or contact Game Control if the issue persists.'
+                    }
                     await Swal.fire({
                         title: 'Whoops!',
                         text: msg,
