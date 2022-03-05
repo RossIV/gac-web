@@ -115,6 +115,7 @@
                                 <template v-if="!hasSignedWaiver">
                                     Our records indicate that you <b>have not</b> yet signed a waiver.
                                     Please click the button below to sign.
+                                    <br/><b>After signing the waiver, make sure you click the verification link sent to your email by SignRequest to finalize your signature.</b>
                                 </template>
                                 <template v-else>
                                     Our records indicate that you <b>have</b> signed a waiver. Thank you!
@@ -128,8 +129,8 @@
                         </div>
                     </div>
                     <div class="card-footer text-muted" v-if="!hasSignedWaiver">
-                        It may take several minutes after signing for the correct status to reflect here.
-                        If you have signed the waiver and after 30 minutes are still seeing this message, please contact Game Control.
+                        It may take a few minutes after clicking the verification link in your email for the status to update here.
+                        If it has been several minutes after you have both (1) signed the waiver and (2) clicked the link in the email from SignRequest, please contact Game Control for assistance.
                     </div>
                 </div>
             </div>
