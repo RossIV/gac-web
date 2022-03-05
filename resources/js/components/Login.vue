@@ -189,14 +189,14 @@ export default {
             if (this.submitting) {
                 return 'btn btn-secondary'
             } else {
-                return (this.$v.user.$invalid && this.$v.user.$anyDirty) ? 'btn btn-danger' : 'btn btn-primary'
+                return (this.$v.user.$anyError && this.$v.user.$anyDirty) ? 'btn btn-danger' : 'btn btn-primary'
             }
         },
         actionButtonText: function() {
             if (this.submitting) {
                 return `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`
             } else {
-                return (this.$v.user.$invalid && this.$v.user.$anyDirty) ? 'Whoops! Please resolve all listed errors.' : this.actionText
+                return (this.$v.user.$anyError && this.$v.user.$anyDirty) ? 'Whoops! Please resolve all listed errors.' : this.actionText
             }
         }
     },
