@@ -38,4 +38,16 @@ class StoreTeamRequest extends FormRequest
             'members.*.affiliation_id' => 'required|integer|exists:affiliations,id'
         ];
     }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'name.unique' => 'The team name has already been taken. Please use a different name.'
+        ];
+    }
 }
