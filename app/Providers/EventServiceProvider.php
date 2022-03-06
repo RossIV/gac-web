@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Events\TeamRegistered;
+use App\Events\SignatureUpdated;
 use App\Listeners\SendTeamRegistrationNotifications;
+use App\Listeners\SendWaiverSignedNotification;
 use App\Models\Payment;
 use App\Observers\PaymentObserver;
 use Illuminate\Auth\Events\Registered;
@@ -24,6 +26,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         TeamRegistered::class => [
             SendTeamRegistrationNotifications::class
+        ],
+        SignatureUpdated::class => [
+            SendWaiverSignedNotification::class
         ]
     ];
 
