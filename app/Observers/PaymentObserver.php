@@ -45,7 +45,17 @@ class PaymentObserver
         $notifiable = $payment->payable->user;
         Mail::to($notifiable)
             ->bcc(config('app.admin_email'))
-            ->send(new PaymentReceived($payment));
+            ->queue(new PaymentReceived($payment));
+
+        activity('email')
+            ->event('sent')
+            ->performedOn($payment)
+            ->causedBy($notifiable)
+            ->withProperties([
+                'type' => 'payment-received',
+                'to' => $notifiable->email
+            ])
+            ->log('Sent Payment Received notification');
     }
 
     /**

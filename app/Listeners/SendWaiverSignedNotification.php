@@ -34,6 +34,16 @@ class SendWaiverSignedNotification implements ShouldQueue
             Mail::to($signature->user)
                 ->bcc(config('app.admin_email'))
                 ->send(new \App\Mail\WaiverSigned($signature));
+
+            activity('email')
+                ->event('sent')
+                ->performedOn($signature)
+                ->causedBy($signature->user)
+                ->withProperties([
+                    'type' => 'waiver-signed',
+                    'to' => $signature->user->email
+                ])
+                ->log('Sent Waiver Signed notification');
         }
     }
 }

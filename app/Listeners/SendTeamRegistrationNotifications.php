@@ -51,11 +51,31 @@ class SendTeamRegistrationNotifications implements ShouldQueue
             ->bcc(config('app.admin_email'))
             ->send(new TeamRegistrationConfirmation($team, $teamMembersString, $eventName, $paymentMethod));
 
+        activity('email')
+            ->event('sent')
+            ->performedOn($eventRegistration)
+            ->causedBy($teamLeader)
+            ->withProperties([
+                'type' => 'team-registration-confirmation',
+                'to' => $teamLeader->email
+            ])
+            ->log('Sent Team Registration Confirmation notification');
+
         // Send email to team members with next steps
         foreach ($teamMembers as $notifiable) {
             Mail::to($notifiable)
                 ->bcc(config('app.admin_email'))
                 ->send(new TeamRegistrationParticipant($notifiable, $team, $eventName, $teamLeader));
+
+            activity('email')
+                ->event('sent')
+                ->performedOn($eventRegistration)
+                ->causedBy($teamLeader)
+                ->withProperties([
+                    'type' => 'team-registration-participant',
+                    'to' => $teamLeader->email
+                ])
+                ->log('Sent Team Registration Participant notification');
         }
     }
 }
