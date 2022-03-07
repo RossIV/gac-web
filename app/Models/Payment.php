@@ -47,7 +47,7 @@ class Payment extends Model
      */
     public function scopeUnpaid(): Builder
     {
-        return $this->where('amount', '0');
+        return $this->where('amount', '0')->whereNotNull('requested_at');
     }
 
     /**
