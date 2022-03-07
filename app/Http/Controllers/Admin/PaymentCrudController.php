@@ -97,6 +97,8 @@ class PaymentCrudController extends CrudController
             'attribute' => 'name',
             'model' => PaymentMethod::class
         ]);
+        CRUD::field('requested_at');
+        CRUD::field('paid_at');
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
@@ -124,5 +126,42 @@ class PaymentCrudController extends CrudController
             'attribute' => 'name',
             'model' => PaymentMethod::class
         ]);
+        CRUD::field('requested_at');
+        CRUD::field('paid_at');
+    }
+
+    /**
+     * Define what happens when the Show operation is loaded.
+     *
+     * @see https://backpackforlaravel.com/docs/crud-operation-show
+     * @return void
+     */
+    protected function setupShowOperation()
+    {
+        $this->crud->set('show.setFromDb', false);
+        $this->crud->addColumn([
+            'type' => 'number',
+            'name' => 'amount',
+            'label' => 'Amount Paid',
+            'prefix' => '$',
+            'decimals' => 2
+        ]);
+        $this->crud->addColumn([
+            'type' => 'relationship',
+            'name' => 'method',
+            'label' => 'Payment Method',
+            'attribute' => 'name',
+            'model' => PaymentMethod::class
+        ]);
+        CRUD::column('notes');
+        $this->crud->addColumn([
+            'type' => 'relationship',
+            'name' => 'payable',
+            'label' => 'Payable',
+            'attribute' => 'name',
+            'model' => EventRegistration::class
+        ]);
+        CRUD::column('requested_at');
+        CRUD::column('paid_at');
     }
 }

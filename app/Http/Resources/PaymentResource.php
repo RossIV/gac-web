@@ -21,6 +21,8 @@ class PaymentResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'deleted_at' => $this->deleted_at,
+            'requested_at' => $this->requested_at,
+            'paid_at' => $this->paid_at,
             'payable' => $this->whenLoaded('payable'),
             'payment_method' => PaymentMethodResource::make($this->whenLoaded('paymentMethod'))
         ];
