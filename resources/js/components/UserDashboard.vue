@@ -43,7 +43,9 @@
                         <p class="card-text">
                             We have not yet received payment for your event registration.
                         </p>
-                        <a href="/team-registration" class="btn btn-primary">Pay Now</a>
+                    </div>
+                    <div class="card-footer">
+                        <small>If you opted to pay in-person on game day, you can safely disregard this message.</small>
                     </div>
                 </div>
             </div>
@@ -135,7 +137,7 @@ export default {
         ownedTeams: function() {
             let self = this
             return this.current_user.teams && this.current_user.teams.length > 0
-                && this.current_user.teams.filter(function(team) { return team.owner_id = self.current_user.id })
+                && this.current_user.teams.filter(function(team) { return team.owner_id === self.current_user.id })
         },
         teamsWithOutstandingPayment: function() {
             return this.ownedTeams && this.ownedTeams.length > 0
