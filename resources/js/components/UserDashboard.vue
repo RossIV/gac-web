@@ -35,7 +35,7 @@
                     </div>
                 </div>
             </template>
-            <div class="col-sm-12 col-md-4" v-if="teamsWithOutstandingPayment">
+            <div class="col-sm-12 col-md-4" v-if="teamsWithOutstandingPayment.length > 0">
                 <div class="card">
                     <div class="card-header">Team Leader Action Required</div>
                     <div class="card-body">
