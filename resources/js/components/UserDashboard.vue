@@ -35,7 +35,7 @@
                     </div>
                 </div>
             </template>
-            <div class="col-sm-12 col-md-4" v-if="teamsWithOutstandingPayment.length > 0">
+            <div class="col-sm-12 col-md-4" v-if="teamsWithOutstandingPayment">
                 <div class="card">
                     <div class="card-header">Team Leader Action Required</div>
                     <div class="card-body">
@@ -140,8 +140,9 @@ export default {
                 && this.current_user.teams.filter(function(team) { return team.owner_id === self.current_user.id })
         },
         teamsWithOutstandingPayment: function() {
-            return this.ownedTeams && this.ownedTeams.length > 0
+            let teams = this.ownedTeams && this.ownedTeams.length > 0
                 && this.ownedTeams.filter(function (team) { return team.registrations[0].payment_due })
+            return (Array.isArray(teams) && teams.length > 0)
         },
         teamsWithRegistration: function() {
             return this.current_user.teams && this.current_user.teams.length > 0
