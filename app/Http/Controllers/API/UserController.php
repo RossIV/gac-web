@@ -8,6 +8,7 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class UserController extends Controller
@@ -19,7 +20,19 @@ class UserController extends Controller
      */
     public function index()
     {
-        return response()->json(['status' => 'error', 'error' => 'Not implemented'], 501);
+        $users = QueryBuilder::for(User::class)
+            ->allowedFilters([
+                AllowedFilter::exact('id'),
+                AllowedFilter::exact('email'),
+                AllowedFilter::exact('phone'),
+                'first_name', 'last_name', 'alt_name'
+            ])
+            ->allowedIncludes([
+                'nativeTeams', 'eventRegistrations'
+            ])
+            ->get();
+
+        return response()->json(['users' => $users]);
     }
 
     /**

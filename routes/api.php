@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\ActivityController;
 use App\Http\Controllers\API\AffiliationController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\EventController;
@@ -30,6 +31,7 @@ Route::name('api.')->group(function() {
     Route::post('signatures/callback', [SignatureController::class, 'callback']);
 
     Route::group(['middleware' => ['auth:sanctum']], function() {
+        Route::resource('activities', ActivityController::class);
         Route::resource('affiliations', AffiliationController::class);
         Route::resource('events', EventController::class);
         Route::resource('eventRegistrations', EventRegistrationController::class);
