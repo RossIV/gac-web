@@ -9,3 +9,5 @@
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('event') }}'><i class='nav-icon la la-calendar-day'></i> Events</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('payment-method') }}'><i class='nav-icon la la-money-check'></i> Payment methods</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('affiliation') }}'><i class='nav-icon la la-user-tag'></i> Affiliations</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ backpack_url('role') }}"><i class="nav-icon la la-id-badge"></i> <span>Roles</span></a></li>
+<li class="nav-item"><a class="nav-link" href="{{ backpack_url('permission') }}"><i class="nav-icon la la-key"></i> <span>Permissions</span></a></li>

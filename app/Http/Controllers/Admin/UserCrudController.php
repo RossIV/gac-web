@@ -46,11 +46,35 @@ class UserCrudController extends CrudController
         CRUD::column('email');
         CRUD::column('phone');
 
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
-         */
+        // Role Filter
+        $this->crud->addFilter(
+            [
+                'name'  => 'role',
+                'type'  => 'dropdown',
+                'label' => trans('backpack::permissionmanager.role'),
+            ],
+            config('permission.models.role')::all()->pluck('name', 'id')->toArray(),
+            function ($value) { // if the filter is active
+                $this->crud->addClause('whereHas', 'roles', function ($query) use ($value) {
+                    $query->where('role_id', '=', $value);
+                });
+            }
+        );
+
+        // Extra Permission Filter
+        $this->crud->addFilter(
+            [
+                'name'  => 'permissions',
+                'type'  => 'select2',
+                'label' => trans('backpack::permissionmanager.extra_permissions'),
+            ],
+            config('permission.models.permission')::all()->pluck('name', 'id')->toArray(),
+            function ($value) { // if the filter is active
+                $this->crud->addClause('whereHas', 'permissions', function ($query) use ($value) {
+                    $query->where('permission_id', '=', $value);
+                });
+            }
+        );
     }
 
     /**
@@ -72,12 +96,35 @@ class UserCrudController extends CrudController
         CRUD::field('emergency_contact_name');
         CRUD::field('emergency_contact_phone');
         CRUD::field('emergency_contact_relationship');
-
-        /**
-         * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
-         */
+        $this->crud->addField([
+            // two interconnected entities
+            'label'             => trans('backpack::permissionmanager.user_role_permission'),
+            'field_unique_name' => 'user_role_permission',
+            'type'              => 'checklist_dependency',
+            'name'              => ['roles', 'permissions'],
+            'subfields'         => [
+                'primary' => [
+                    'label'            => trans('backpack::permissionmanager.roles'),
+                    'name'             => 'roles', // the method that defines the relationship in your Model
+                    'entity'           => 'roles', // the method that defines the relationship in your Model
+                    'entity_secondary' => 'permissions', // the method that defines the relationship in your Model
+                    'attribute'        => 'name', // foreign key attribute that is shown to user
+                    'model'            => config('permission.models.role'), // foreign key model
+                    'pivot'            => true, // on create&update, do you need to add/delete pivot table entries?]
+                    'number_columns'   => 3, //can be 1,2,3,4,6
+                ],
+                'secondary' => [
+                    'label'          => ucfirst(trans('backpack::permissionmanager.permission_singular')),
+                    'name'           => 'permissions', // the method that defines the relationship in your Model
+                    'entity'         => 'permissions', // the method that defines the relationship in your Model
+                    'entity_primary' => 'roles', // the method that defines the relationship in your Model
+                    'attribute'      => 'name', // foreign key attribute that is shown to user
+                    'model'          => config('permission.models.permission'), // foreign key model
+                    'pivot'          => true, // on create&update, do you need to add/delete pivot table entries?]
+                    'number_columns' => 3, //can be 1,2,3,4,6
+                ],
+            ],
+        ]);
     }
 
     /**
@@ -120,5 +167,21 @@ class UserCrudController extends CrudController
         CRUD::column('emergency_contact_relationship');
         CRUD::column('created_at');
         CRUD::column('updated_at');
+        $this->crud->addColumn([ // n-n relationship (with pivot table)
+            'label'     => trans('backpack::permissionmanager.roles'), // Table column heading
+            'type'      => 'select_multiple',
+            'name'      => 'roles', // the method that defines the relationship in your Model
+            'entity'    => 'roles', // the method that defines the relationship in your Model
+            'attribute' => 'name', // foreign key attribute that is shown to user
+            'model'     => config('permission.models.role'), // foreign key model
+        ]);
+        $this->crud->addColumn([ // n-n relationship (with pivot table)
+            'label'     => trans('backpack::permissionmanager.extra_permissions'), // Table column heading
+            'type'      => 'select_multiple',
+            'name'      => 'permissions', // the method that defines the relationship in your Model
+            'entity'    => 'permissions', // the method that defines the relationship in your Model
+            'attribute' => 'name', // foreign key attribute that is shown to user
+            'model'     => config('permission.models.permission'), // foreign key model
+        ]);
     }
 }
