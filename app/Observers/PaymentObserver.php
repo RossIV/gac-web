@@ -29,7 +29,8 @@ class PaymentObserver
      */
     public function updated(Payment $payment)
     {
-        if ($payment->amount > 0 && $payment->payable_type == "App\Models\EventRegistration") {
+        $amount_dirty = $payment->isDirty('amount');
+        if ($payment->amount > 0 && $payment->payable_type == "App\Models\EventRegistration" && $amount_dirty) {
             $this->handleNonZeroRegistrationPayment($payment);
         }
     }
