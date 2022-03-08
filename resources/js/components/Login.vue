@@ -54,7 +54,7 @@
         </template>
 
 
-        <button class="w-100 btn btn-lg btn-primary mt-3" type="button" v-on:click="process" :class="actionButtonClass">{{ actionButtonText }}</button>
+        <button class="w-100 btn btn-lg btn-primary mt-3" type="button" v-on:click="process" :class="actionButtonClass" v-html="actionButtonText"></button>
 
         <div class="row pt-3">
             <div class="col">
@@ -93,6 +93,7 @@ export default {
     },
     methods: {
         process: async function() {
+            this.submitting = true;
             if (!this.registering) {
                 return this.loginUser()
             } else {
@@ -118,6 +119,13 @@ export default {
                 .catch(function(error) {
                     self.handleAxiosError(error, 'register')
                 })
+                .finally(function() {
+                    self.registering = false;
+                    self.submitting = false;
+                    let email = self.user.email;
+                    self.user = {}
+                    self.user.email = email
+                })
         },
         loginUser: async function() {
             let self = this
@@ -137,6 +145,9 @@ export default {
                 })
                 .catch(function(error) {
                     self.handleAxiosError(error, 'login')
+                })
+                .finally(function() {
+                    self.submitting = false;
                 })
         },
         handleAxiosError: function(error, action) {
