@@ -11,10 +11,12 @@ use Mpociot\Teamwork\TeamInvite;
 use Mpociot\Teamwork\TeamworkTeam;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
+use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 class Team extends TeamworkTeam
 {
-    use CrudTrait, LogsActivity;
+    use CrudTrait, LogsActivity, HasRelationships;
 
     /**
      * The attributes that are mass assignable.
@@ -60,6 +62,16 @@ class Team extends TeamworkTeam
     public function events(): HasManyThrough
     {
         return $this->hasManyThrough(Event::class, EventRegistration::class, 'team_id', 'id', 'id', 'event_id');
+    }
+
+    /**
+     * Defines the relationship between Team and Payment models through EventRegistration
+     *
+     * @return HasManyDeep
+     */
+    public function payments(): HasManyDeep
+    {
+        return $this->hasManyDeep(Payment::class, [EventRegistration::class], [null, ['payable_type', 'payable_id']]);
     }
 
     /**
