@@ -83,6 +83,7 @@ import CurrentUser from "../models/CurrentUser";
 import {format, formatRelative} from "date-fns";
 import Swal from "sweetalert2";
 import * as Sentry from "@sentry/vue";
+import {DateTime} from "luxon";
 
 export default {
     name: "UserDashboard",
@@ -130,9 +131,8 @@ export default {
     },
     computed: {
         friendlyRegistrationEndDate: function() {
-            let relative = formatRelative(Date.parse(this.events[0].registration_ends_at), new Date())
-            let formatted = format(Date.parse(this.events[0].registration_ends_at), "PPPP p")
-            return (relative.includes('at')) ? relative : formatted
+            let parsed = DateTime.fromSQL(this.events[0].registration_ends_at)
+            return parsed.toLocaleString(DateTime.DATETIME_FULL)
         },
         ownedTeams: function() {
             let self = this
