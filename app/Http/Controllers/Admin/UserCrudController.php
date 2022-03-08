@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\UserRequest;
+use App\Models\Affiliation;
 use App\Models\Team;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -45,6 +46,34 @@ class UserCrudController extends CrudController
         CRUD::column('alt_name');
         CRUD::column('email');
         CRUD::column('phone');
+
+        // Affiliation Filter
+        $this->crud->addFilter(
+            [
+                'name'  => 'affiliation',
+                'type'  => 'dropdown',
+                'label' => 'Affiliation',
+            ],
+            Affiliation::all()->pluck('name', 'id')->toArray(),
+            function ($value) { // if the filter is active
+                $this->crud->addClause('where', 'affiliation_id', $value);
+            }
+        );
+
+        // Team Filter
+        $this->crud->addFilter(
+            [
+                'name'  => 'nativeTeams',
+                'type'  => 'dropdown',
+                'label' => 'Team',
+            ],
+            Team::all()->pluck('name', 'id')->toArray(),
+            function ($value) { // if the filter is active
+                $this->crud->query = $this->crud->query->whereHas('nativeTeams', function ($query) use ($value) {
+                    $query->where('id', $value);
+                });
+            }
+        );
 
         // Role Filter
         $this->crud->addFilter(
@@ -154,13 +183,29 @@ class UserCrudController extends CrudController
         CRUD::column('email');
         CRUD::column('email_verified_at');
         CRUD::column('phone');
-        CRUD::column('affiliation_id');
+        $this->crud->addColumn([
+           'type' => 'relationship',
+           'name' => 'affiliation',
+           'label' => 'Affiliation',
+           'attribute' => 'name',
+           'model' => Affiliation::class,
+            'wrapper'   => [
+                'href' => function ($crud, $column, $entry, $related_key) {
+                    return backpack_url('affiliation/'.$related_key.'/show');
+                },
+            ],
+        ]);
         $this->crud->addColumn([
             'type' => 'relationship',
             'name' => 'teams',
             'label' => 'Teams',
             'attribute' => 'name',
-            'model' => Team::class
+            'model' => Team::class,
+            'wrapper'   => [
+                'href' => function ($crud, $column, $entry, $related_key) {
+                    return backpack_url('team/'.$related_key.'/show');
+                },
+            ],
         ]);
         CRUD::column('emergency_contact_name');
         CRUD::column('emergency_contact_phone');

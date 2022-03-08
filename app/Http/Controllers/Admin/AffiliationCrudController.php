@@ -40,6 +40,17 @@ class AffiliationCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::column('name');
+        $this->crud->addColumn([
+            'type' => 'relationship_count',
+            'name' => 'users',
+            'label' => 'People',
+            'suffix' => ' People',
+            'wrapper'   => [
+                'href' => function ($crud, $column, $entry, $related_key) {
+                    return backpack_url('user?affiliation='.$entry->getKey());
+                },
+            ],
+        ]);
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -89,5 +100,16 @@ class AffiliationCrudController extends CrudController
         CRUD::column('name');
         CRUD::column('created_at');
         CRUD::column('updated_at');
+        $this->crud->addColumn([
+            'type' => 'relationship_count',
+            'name' => 'users',
+            'label' => 'People',
+            'suffix' => ' People',
+            'wrapper'   => [
+                'href' => function ($crud, $column, $entry, $related_key) {
+                    return backpack_url('user?affiliation='.$entry->getKey());
+                },
+            ],
+        ]);
     }
 }

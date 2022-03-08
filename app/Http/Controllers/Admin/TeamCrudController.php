@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\TeamRequest;
 use App\Models\EventRegistration;
+use App\Models\Payment;
 use App\Models\User;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -52,9 +53,20 @@ class TeamCrudController extends CrudController
         ]);
         $this->crud->addColumn([
             'name' => 'accept_additional_members',
-            'label' => 'Accept Additional Members',
+            'label' => 'Accept Addtl.',
             'type' => 'boolean',
             'options' => [0 => 'No', 1 => 'Yes']
+        ]);
+        $this->crud->addColumn([
+            'type' => 'relationship_count',
+            'name' => 'users',
+            'label' => 'Members',
+            'suffix' => ' Members',
+            'wrapper'   => [
+                'href' => function ($crud, $column, $entry, $related_key) {
+                    return backpack_url('user?nativeTeams='.$entry->getKey());
+                },
+            ],
         ]);
 
         /**
@@ -138,14 +150,36 @@ class TeamCrudController extends CrudController
             'name' => 'owner',
             'label' => 'Leader',
             'attribute' => 'name',
-            'model' => User::class
+            'model' => User::class,
+            'wrapper'   => [
+                'href' => function ($crud, $column, $entry, $related_key) {
+                    return backpack_url('user/'.$related_key.'/show');
+                },
+            ],
         ]);
         $this->crud->addColumn([
             'type' => 'relationship',
             'name' => 'users',
             'label' => 'Members',
             'attribute' => 'name',
-            'model' => User::class
+            'model' => User::class,
+            'wrapper'   => [
+                'href' => function ($crud, $column, $entry, $related_key) {
+                    return backpack_url('user/'.$related_key.'/show');
+                },
+            ],
+        ]);
+        $this->crud->addColumn([
+            'type' => 'relationship',
+            'name' => 'payments',
+            'label' => 'Payments',
+            'attribute' => 'name',
+            'model' => Payment::class,
+            'wrapper'   => [
+                'href' => function ($crud, $column, $entry, $related_key) {
+                    return backpack_url('payment/'.$related_key.'/show');
+                },
+            ],
         ]);
         $this->crud->addColumn([
             'type' => 'relationship',
@@ -159,7 +193,12 @@ class TeamCrudController extends CrudController
             'name' => 'registrations',
             'label' => 'Registrations',
             'attribute' => 'name',
-            'model' => EventRegistration::class
+            'model' => EventRegistration::class,
+            'wrapper'   => [
+                'href' => function ($crud, $column, $entry, $related_key) {
+                    return backpack_url('event-registration/'.$related_key.'/show');
+                },
+            ],
         ]);
     }
 }

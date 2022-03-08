@@ -151,7 +151,12 @@ class PaymentCrudController extends CrudController
             'name' => 'method',
             'label' => 'Payment Method',
             'attribute' => 'name',
-            'model' => PaymentMethod::class
+            'model' => PaymentMethod::class,
+            'wrapper'   => [
+                'href' => function ($crud, $column, $entry, $related_key) {
+                    return backpack_url('payment-method/'.$related_key.'/show');
+                },
+            ],
         ]);
         CRUD::column('notes');
         $this->crud->addColumn([
@@ -159,7 +164,12 @@ class PaymentCrudController extends CrudController
             'name' => 'payable',
             'label' => 'Payable',
             'attribute' => 'name',
-            'model' => EventRegistration::class
+            'model' => EventRegistration::class,
+            'wrapper'   => [
+                'href' => function ($crud, $column, $entry, $related_key) {
+                    return backpack_url('event-registration/'.$related_key.'/show');
+                },
+            ],
         ]);
         CRUD::column('requested_at');
         CRUD::column('paid_at');

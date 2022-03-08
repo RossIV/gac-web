@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\EventRegistrationRequest;
+use App\Models\Event;
 use App\Models\Payment;
+use App\Models\Team;
 use App\Models\User;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -41,14 +43,53 @@ class EventRegistrationCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('event_id');
-        CRUD::column('team_id');
+        $this->crud->addColumn([
+            'type' => 'relationship',
+            'name' => 'event',
+            'label' => 'Event',
+            'attribute' => 'name',
+            'model' => Event::class,
+            'wrapper'   => [
+                'href' => function ($crud, $column, $entry, $related_key) {
+                    return backpack_url('event/'.$related_key.'/show');
+                },
+            ],
+        ]);
+        $this->crud->addColumn([
+           'type' => 'relationship',
+           'name' => 'team',
+           'label' => 'Team',
+           'attribute' => 'name',
+           'model' => Team::class,
+            'wrapper'   => [
+                'href' => function ($crud, $column, $entry, $related_key) {
+                    return backpack_url('team/'.$related_key.'/show');
+                },
+            ],
+        ]);
         $this->crud->addColumn([
             'type' => 'relationship',
             'name' => 'user',
             'label' => 'Team Leader',
             'attribute' => 'name',
-            'model' => User::class
+            'model' => User::class,
+            'wrapper'   => [
+                'href' => function ($crud, $column, $entry, $related_key) {
+                    return backpack_url('user/'.$related_key.'/show');
+                },
+            ],
+        ]);
+        $this->crud->addColumn([
+            'type' => 'relationship',
+            'name' => 'payments',
+            'label' => 'Payments',
+            'attribute' => 'name',
+            'model' => Payment::class,
+            'wrapper'   => [
+                'href' => function ($crud, $column, $entry, $related_key) {
+                    return backpack_url('payment/'.$related_key.'/show');
+                },
+            ],
         ]);
 
         /**
@@ -103,14 +144,41 @@ class EventRegistrationCrudController extends CrudController
     {
         $this->crud->set('show.setFromDb', false);
 
-        CRUD::column('event_id');
-        CRUD::column('team_id');
+        $this->crud->addColumn([
+            'type' => 'relationship',
+            'name' => 'event',
+            'label' => 'Event',
+            'attribute' => 'name',
+            'model' => Event::class,
+            'wrapper'   => [
+                'href' => function ($crud, $column, $entry, $related_key) {
+                    return backpack_url('event/'.$related_key.'/show');
+                },
+            ],
+        ]);
+        $this->crud->addColumn([
+            'type' => 'relationship',
+            'name' => 'team',
+            'label' => 'Team',
+            'attribute' => 'name',
+            'model' => Team::class,
+            'wrapper'   => [
+                'href' => function ($crud, $column, $entry, $related_key) {
+                    return backpack_url('team/'.$related_key.'/show');
+                },
+            ],
+        ]);
         $this->crud->addColumn([
             'type' => 'relationship',
             'name' => 'user',
             'label' => 'Team Leader',
             'attribute' => 'name',
-            'model' => User::class
+            'model' => User::class,
+            'wrapper'   => [
+                'href' => function ($crud, $column, $entry, $related_key) {
+                    return backpack_url('user/'.$related_key.'/show');
+                },
+            ],
         ]);
         CRUD::column('terms_agreed_at');
         $this->crud->addColumn([
@@ -118,7 +186,12 @@ class EventRegistrationCrudController extends CrudController
             'name' => 'termsAgreedByUser',
             'label' => 'Terms Agreed By',
             'attribute' => 'name',
-            'model' => User::class
+            'model' => User::class,
+            'wrapper'   => [
+                'href' => function ($crud, $column, $entry, $related_key) {
+                    return backpack_url('user/'.$related_key.'/show');
+                },
+            ],
         ]);
         CRUD::column('external_notes');
         CRUD::column('internal_notes');
@@ -127,7 +200,12 @@ class EventRegistrationCrudController extends CrudController
             'name' => 'payments',
             'label' => 'Payments',
             'attribute' => 'name',
-            'model' => Payment::class
+            'model' => Payment::class,
+            'wrapper'   => [
+                'href' => function ($crud, $column, $entry, $related_key) {
+                    return backpack_url('payment/'.$related_key.'/show');
+                },
+            ],
         ]);
         CRUD::column('created_at');
         CRUD::column('updated_at');
