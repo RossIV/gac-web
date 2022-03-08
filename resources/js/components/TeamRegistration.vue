@@ -243,9 +243,9 @@ import Event from '../models/Event'
 import EventRegistration from '../models/EventRegistration'
 import PaymentMethod from '../models/PaymentMethod'
 import Team from '../models/Team'
-import { required, requiredIf, email, numeric, sameAs, minLength } from 'vuelidate/lib/validators'
+import {email, minLength, numeric, required, requiredIf, sameAs} from 'vuelidate/lib/validators'
 import Swal from 'sweetalert2'
-import { format, formatRelative } from 'date-fns'
+import {DateTime} from "luxon";
 import * as Sentry from "@sentry/vue";
 
 export default {
@@ -455,12 +455,13 @@ export default {
             }
         },
         friendlyEventDate: function() {
-            return format(Date.parse(this.events[0].starts_at), "PPPP p")
+            return DateTime.fromSQL(this.events[0].starts_at).toLocaleString(DateTime.DATETIME_FULL)
         },
         friendlyRegistrationEndDate: function() {
-            let relative = formatRelative(Date.parse(this.events[0].registration_ends_at), new Date())
-            let formatted = format(Date.parse(this.events[0].registration_ends_at), "PPPP p")
-            return (relative.includes('at')) ? relative : formatted
+            let parsed = DateTime.fromSQL(this.events[0].registration_ends_at)
+            let relative = parsed.toRelative()
+            let long = parsed.toLocaleString(DateTime.DATETIME_FULL)
+            return `${relative} (${long})`
         },
         hasRegistration: function() {
             return (
@@ -472,11 +473,9 @@ export default {
             let rat_affiliation = this.affiliations.filter(affiliation => {
                 return affiliation.name.includes('R.A.T.')
             })[0]
-            console.log(rat_affiliation)
             let rat_members = this.team.members.filter(member => {
                 return member.affiliation_id === rat_affiliation.id
             })
-            console.log(rat_members)
             return rat_members.length > 0
         },
         amountDue: function() {
