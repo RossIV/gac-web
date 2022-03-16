@@ -9,6 +9,7 @@
         <li><a href="/my-team" class="nav-link px-2 link-dark">My Team</a></li>
         @endif
         <li><a href="/team-registration" class="nav-link px-2 link-dark">Team Registration</a></li>
+        <li><a href="https://getaclue.tech" target="_blank" class="nav-link px-2 link-dark">Main Website</a></li>
         @if(Auth::check() && Auth::user()->can('access-admin-panel'))
         <li><a href="/admin" class="nav-link px-2 link-dark">Admin</a></li>
         @endif
