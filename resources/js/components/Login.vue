@@ -1,68 +1,88 @@
 <template>
-    <main class="form-signin">
-        <h1>{{ appname }}</h1>
-        <h2 class="h3 mb-3 fw-normal">{{ actionText }}</h2>
-
-
+    <main>
         <div class="row">
-            <div class="col-12">
-                <div class="form-floating">
-                    <input type="email" class="form-control" id="email" placeholder="name@example.com" v-model="$v.user.email.$model" :class="{ 'is-invalid': $v.user.email.$error }">
-                    <label for="email">Email address</label>
-                    <div class="invalid-feedback" v-if="!$v.user.email.required">Email is required</div>
-                    <div class="invalid-feedback" v-if="!$v.user.email.email">Email must be a valid email address</div>
-                </div>
+            <div style="text-align: center">
+                <h1 style="font-weight: bold">{{ appname }}</h1>
+                <h5>Event & Team Management System</h5>
             </div>
         </div>
-        <template v-if="registering">
-            <div class="row pt-3">
-                <div class="col-12">
-                    <h5>Looks like you're new here...</h5>
-                    <p>Tell us a little bit about yourself, and we'll get your account created.</p>
+        <div class="row justify-content-md-center">
+            <div class="col-sm-12 col-md-6 col-lg-5 p-5 form-signin">
+                <h3 class="h3 mb-3 fw-normal">{{ actionText }}</h3>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-floating">
+                            <input type="email" class="form-control" id="email" placeholder="name@example.com" v-model="$v.user.email.$model" :class="{ 'is-invalid': $v.user.email.$error }">
+                            <label for="email">Email address</label>
+                            <div class="invalid-feedback" v-if="!$v.user.email.required">Email is required</div>
+                            <div class="invalid-feedback" v-if="!$v.user.email.email">Email must be a valid email address</div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12 col-md-6 col-lg-6">
-                    <label for="first_name" class="form-label">First Name</label>
-                    <input type="text" id="first_name" class="form-control" v-model="$v.user.first_name.$model" :class="{ 'is-invalid': $v.user.first_name.$error }">
-                    <div class="invalid-feedback" v-if="!$v.user.first_name.required">First Name is required</div>
-                </div>
-                <div class="col-sm-12 col-md-6 col-lg-6">
-                    <label for="last_name" class="form-label">Last Name</label>
-                    <input type="text" id="last_name" class="form-control" v-model="$v.user.last_name.$model" :class="{ 'is-invalid': $v.user.last_name.$error }">
-                    <div class="invalid-feedback" v-if="!$v.user.last_name.required">Last Name is required</div>
-                </div>
-            </div>
-            <div class="row pt-2">
-                <div class="col-sm-12 col-md-6 col-lg-6">
-                    <label for="phone" class="form-label">Phone</label> <small>(numbers only)</small>
-                    <input type="tel" id="phone" class="form-control" v-model="$v.user.phone.$model" :class="{ 'is-invalid': $v.user.phone.$error }">
-                    <div class="invalid-feedback" v-if="!$v.user.phone.required">Phone Number is required</div>
-                    <div class="invalid-feedback" v-if="!$v.user.phone.numeric">Phone Number must contain numbers only</div>
-                </div>
-                <div class="col-sm-12 col-md-6 col-lg-6">
-                    <label for="affiliation_id" class="form-label">Affiliation</label>
-                    <select id="affiliation_id" class="form-select" v-model="user.affiliation_id" :class="{ 'is-invalid': $v.user.affiliation_id.$error }">
-                        <option selected disabled>Select One</option>
-                        <template v-for="affiliation in affiliations">
-                            <option :value="affiliation.id">{{ affiliation.name }}</option>
-                        </template>
-                    </select>
-                    <div class="invalid-feedback" v-if="!$v.user.affiliation_id.required">Affiliation is required</div>
-                </div>
-            </div>
-        </template>
+                <template v-if="registering">
+                    <div class="row pt-3">
+                        <div class="col-12">
+                            <h5>Looks like you're new here...</h5>
+                            <p>Tell us a little bit about yourself, and we'll get your account created.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <label for="first_name" class="form-label">First Name</label>
+                            <input type="text" id="first_name" class="form-control" v-model="$v.user.first_name.$model" :class="{ 'is-invalid': $v.user.first_name.$error }">
+                            <div class="invalid-feedback" v-if="!$v.user.first_name.required">First Name is required</div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <label for="last_name" class="form-label">Last Name</label>
+                            <input type="text" id="last_name" class="form-control" v-model="$v.user.last_name.$model" :class="{ 'is-invalid': $v.user.last_name.$error }">
+                            <div class="invalid-feedback" v-if="!$v.user.last_name.required">Last Name is required</div>
+                        </div>
+                    </div>
+                    <div class="row pt-2">
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <label for="phone" class="form-label">Phone</label> <small>(numbers only)</small>
+                            <input type="tel" id="phone" class="form-control" v-model="$v.user.phone.$model" :class="{ 'is-invalid': $v.user.phone.$error }">
+                            <div class="invalid-feedback" v-if="!$v.user.phone.required">Phone Number is required</div>
+                            <div class="invalid-feedback" v-if="!$v.user.phone.numeric">Phone Number must contain numbers only</div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <label for="affiliation_id" class="form-label">Affiliation</label>
+                            <select id="affiliation_id" class="form-select" v-model="user.affiliation_id" :class="{ 'is-invalid': $v.user.affiliation_id.$error }">
+                                <option selected disabled>Select One</option>
+                                <template v-for="affiliation in affiliations">
+                                    <option :value="affiliation.id">{{ affiliation.name }}</option>
+                                </template>
+                            </select>
+                            <div class="invalid-feedback" v-if="!$v.user.affiliation_id.required">Affiliation is required</div>
+                        </div>
+                    </div>
+                </template>
 
 
-        <button class="w-100 btn btn-lg btn-primary mt-3" type="button" v-on:click="process" :class="actionButtonClass" v-html="actionButtonText"></button>
+                <button class="w-100 btn btn-lg btn-primary mt-3" type="button" v-on:click="process" :class="actionButtonClass" v-html="actionButtonText"></button>
 
-        <div class="row pt-3">
-            <div class="col">
-                <small>
-                    {{ appname }} uses magic links to authenticate.
-                    Simply submit your email address above, click the link in your inbox, and you're in!<br/><br/>
-                    If you're new here, don't worry - we'll prompt you to create an account automatically.
-                </small>
+                <div class="row pt-3">
+                    <div class="col">
+                        <small>
+                            {{ appname }} uses magic links to authenticate.
+                            Simply submit your email address above, click the link in your inbox, and you're in!<br/><br/>
+                            If you're new here, don't worry - we'll prompt you to create an account automatically.
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-4 mt-5">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">About {{ appname }}</h5>
+                        <p class="card-text">
+                            Get A Clue (GAC) is an annual puzzle hunt hosted every spring in Atlanta. It is a city-wide, full-day hunt where teams will travel to various locations in the metropolitan Atlanta area, solving clues and completing challenges along the way.
+                            Click the button below to visit our main website for more information!
+                        </p>
+                        <a class="btn btn-secondary" href="https://getaclue.tech" target="_blank">More Information</a>
+                    </div>
+                </div>
             </div>
         </div>
     </main>

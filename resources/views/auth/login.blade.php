@@ -15,13 +15,6 @@
         background-color: #f5f5f5 !important;
     }
 
-    .form-signin {
-        width: 100%;
-        max-width: 500px;
-        padding: 15px;
-        margin: auto;
-    }
-
     .form-signin .checkbox {
         font-weight: 400;
     }
