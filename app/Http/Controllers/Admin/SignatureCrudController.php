@@ -57,8 +57,8 @@ class SignatureCrudController extends CrudController
             'model' => EventRegistration::class
         ]);
         CRUD::column('requested_at');
-        CRUD::column('viewed_at');
         CRUD::column('signed_at');
+        CRUD::column('viewed_at');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:

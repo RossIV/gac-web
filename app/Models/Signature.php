@@ -21,7 +21,7 @@ class Signature extends Model
      * @var array<string>
      */
     protected $appends = [
-        'documentURL'
+        'documentURL', 'name'
     ];
 
     /**
@@ -97,6 +97,16 @@ class Signature extends Model
     public function getDocumentURLAttribute(): string
     {
         return $this->eventRegistration->event->participant_waiver_url ?: '';
+    }
+
+    /**
+     * Returns string representation of the model
+     *
+     * @return string
+     */
+    public function getNameAttribute()
+    {
+        return "Signature #$this->id";
     }
 
     /**

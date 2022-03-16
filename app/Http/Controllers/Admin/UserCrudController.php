@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\UserRequest;
 use App\Models\Affiliation;
+use App\Models\Signature;
 use App\Models\Team;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -204,6 +205,18 @@ class UserCrudController extends CrudController
             'wrapper'   => [
                 'href' => function ($crud, $column, $entry, $related_key) {
                     return backpack_url('team/'.$related_key.'/show');
+                },
+            ],
+        ]);
+        $this->crud->addColumn([
+            'type' => 'relationship',
+            'name' => 'signatures',
+            'label' => 'Signatures',
+            'attribute' => 'name',
+            'model' => Signature::class,
+            'wrapper'   => [
+                'href' => function ($crud, $column, $entry, $related_key) {
+                    return backpack_url('signature/'.$related_key.'/show');
                 },
             ],
         ]);
